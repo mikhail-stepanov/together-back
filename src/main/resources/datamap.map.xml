@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-map xmlns="http://cayenne.apache.org/schema/9/modelMap"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://cayenne.apache.org/schema/9/modelMap https://cayenne.apache.org/schema/9/modelMap.xsd"
+	 project-version="9">
+	<property name="defaultPackage" value="ru.together.database.entities"/>
+	<db-entity name="event">
+		<db-attribute name="cloud" type="VARCHAR" length="1000"/>
+		<db-attribute name="createdDate" type="TIMESTAMP" isMandatory="true"/>
+		<db-attribute name="date" type="TIMESTAMP" isMandatory="true"/>
+		<db-attribute name="deletedDate" type="TIMESTAMP"/>
+		<db-attribute name="description" type="VARCHAR" isMandatory="true" length="5000"/>
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="isFuture" type="BOOLEAN" isMandatory="true"/>
+		<db-attribute name="modifiedDate" type="TIMESTAMP"/>
+		<db-attribute name="picUrl" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="place" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="soundcloud" type="VARCHAR" length="1000"/>
+		<db-attribute name="title" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="youtube" type="VARCHAR" length="1000"/>
+	</db-entity>
+	<db-entity name="user">
+		<db-attribute name="createdDate" type="TIMESTAMP" isMandatory="true"/>
+		<db-attribute name="deletedDate" type="TIMESTAMP"/>
+		<db-attribute name="email" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="modifiedDate" type="TIMESTAMP"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="userId" type="INTEGER" isMandatory="true" length="4"/>
+	</db-entity>
+	<db-entity name="user_past_event">
+		<db-attribute name="createDate" type="TIMESTAMP" isMandatory="true"/>
+		<db-attribute name="deletedDate" type="TIMESTAMP"/>
+		<db-attribute name="eventId" type="BIGINT" isMandatory="true"/>
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="modifiedDate" type="TIMESTAMP"/>
+		<db-attribute name="userId" type="BIGINT" isMandatory="true"/>
+	</db-entity>
+	<db-entity name="user_session">
+		<db-attribute name="createdDate" type="TIMESTAMP" isMandatory="true"/>
+		<db-attribute name="deletedDate" type="TIMESTAMP"/>
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="modifiedDate" type="TIMESTAMP"/>
+		<db-attribute name="userId" type="BIGINT" isMandatory="true"/>
+	</db-entity>
+	<db-entity name="user_ticket">
+		<db-attribute name="createdDate" type="TIMESTAMP" isMandatory="true"/>
+		<db-attribute name="deletedDate" type="TIMESTAMP"/>
+		<db-attribute name="eventId" type="BIGINT" isMandatory="true"/>
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="link" type="VARCHAR" length="255"/>
+		<db-attribute name="modifiedDate" type="TIMESTAMP"/>
+		<db-attribute name="userId" type="BIGINT" isMandatory="true"/>
+	</db-entity>
+	<db-relationship name="eventToPast" source="event" target="user_past_event" toMany="true">
+		<db-attribute-pair source="id" target="eventId"/>
+	</db-relationship>
+	<db-relationship name="eventToTicket" source="event" target="user_ticket" toMany="true">
+		<db-attribute-pair source="id" target="eventId"/>
+	</db-relationship>
+	<db-relationship name="userToPast" source="user" target="user_past_event" toMany="true">
+		<db-attribute-pair source="id" target="userId"/>
+	</db-relationship>
+	<db-relationship name="userToSession" source="user" target="user_session" toMany="true">
+		<db-attribute-pair source="id" target="userId"/>
+	</db-relationship>
+	<db-relationship name="userToTicket" source="user" target="user_ticket" toMany="true">
+		<db-attribute-pair source="id" target="userId"/>
+	</db-relationship>
+	<db-relationship name="pastToEvent" source="user_past_event" target="event" toMany="false">
+		<db-attribute-pair source="eventId" target="id"/>
+	</db-relationship>
+	<db-relationship name="pastToUser" source="user_past_event" target="user" toMany="false">
+		<db-attribute-pair source="userId" target="id"/>
+	</db-relationship>
+	<db-relationship name="sessionToUser" source="user_session" target="user" toMany="false">
+		<db-attribute-pair source="userId" target="id"/>
+	</db-relationship>
+	<db-relationship name="ticketToEvent" source="user_ticket" target="event" toMany="false">
+		<db-attribute-pair source="eventId" target="id"/>
+	</db-relationship>
+	<db-relationship name="ticketToUser" source="user_ticket" target="user" toMany="false">
+		<db-attribute-pair source="userId" target="id"/>
+	</db-relationship>
+</data-map>
