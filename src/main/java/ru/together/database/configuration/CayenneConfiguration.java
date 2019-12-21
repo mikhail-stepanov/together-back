@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 public class CayenneConfiguration {
 
     @Bean
-    public ServerRuntime serverRuntime(@Autowired DataSource dataSource){
+    public ServerRuntime serverRuntime(@Autowired DataSource dataSource) {
         ServerRuntime serverRuntime = ServerRuntime.builder()
-                .addConfig("cayenne-tochka-core.xml")
+                .addConfig("cayenne-together.xml")
                 .addModule(binder -> binder.bind(DbAdapterFactory.class).to(CustomAdapterFactory.class))
                 .dataSource(dataSource)
                 .build();
@@ -29,7 +29,7 @@ public class CayenneConfiguration {
         return serverRuntime;
     }
 
-    public class MyListener implements LifecycleListener {
+    public static class MyListener implements LifecycleListener {
 
         @Override
         public void postAdd(Object entity) {
@@ -37,11 +37,11 @@ public class CayenneConfiguration {
         }
 
         public void prePersist(Object entity) {
-            try{
-                if (entity instanceof CayenneDataObject){
+            try {
+                if (entity instanceof CayenneDataObject) {
                     ((CayenneDataObject) entity).writeProperty("createdDate", LocalDateTime.now());
                 }
-            }catch (Exception ex){
+            } catch (Exception ex) {
 
             }
         }
@@ -63,11 +63,11 @@ public class CayenneConfiguration {
 
         @Override
         public void preUpdate(Object entity) {
-            try{
-                if (entity instanceof CayenneDataObject){
+            try {
+                if (entity instanceof CayenneDataObject) {
                     ((CayenneDataObject) entity).writeProperty("modifiedDate", LocalDateTime.now());
                 }
-            }catch (Exception ex){
+            } catch (Exception ignored) {
 
             }
         }

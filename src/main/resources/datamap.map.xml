@@ -24,8 +24,10 @@
 		<db-attribute name="deletedDate" type="TIMESTAMP"/>
 		<db-attribute name="email" type="VARCHAR" isMandatory="true" length="255"/>
 		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="isVerified" type="BOOLEAN" isMandatory="true"/>
 		<db-attribute name="modifiedDate" type="TIMESTAMP"/>
 		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="phone" type="VARCHAR" isMandatory="true" length="255"/>
 		<db-attribute name="userId" type="INTEGER" isMandatory="true" length="4"/>
 	</db-entity>
 	<db-entity name="user_past_event">
@@ -52,6 +54,46 @@
 		<db-attribute name="modifiedDate" type="TIMESTAMP"/>
 		<db-attribute name="userId" type="BIGINT" isMandatory="true"/>
 	</db-entity>
+	<obj-entity name="Event" className="ru.together.database.entities.Event" dbEntityName="event">
+		<obj-attribute name="cloud" type="java.lang.String" db-attribute-path="cloud"/>
+		<obj-attribute name="createdDate" type="java.time.LocalDateTime" db-attribute-path="createdDate"/>
+		<obj-attribute name="date" type="java.time.LocalDateTime" db-attribute-path="date"/>
+		<obj-attribute name="deletedDate" type="java.time.LocalDateTime" db-attribute-path="deletedDate"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="isFuture" type="boolean" db-attribute-path="isFuture"/>
+		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modifiedDate"/>
+		<obj-attribute name="picUrl" type="java.lang.String" db-attribute-path="picUrl"/>
+		<obj-attribute name="place" type="java.lang.String" db-attribute-path="place"/>
+		<obj-attribute name="soundcloud" type="java.lang.String" db-attribute-path="soundcloud"/>
+		<obj-attribute name="title" type="java.lang.String" db-attribute-path="title"/>
+		<obj-attribute name="youtube" type="java.lang.String" db-attribute-path="youtube"/>
+	</obj-entity>
+	<obj-entity name="User" className="ru.together.database.entities.User" dbEntityName="user">
+		<obj-attribute name="createdDate" type="java.time.LocalDateTime" db-attribute-path="createdDate"/>
+		<obj-attribute name="deletedDate" type="java.time.LocalDateTime" db-attribute-path="deletedDate"/>
+		<obj-attribute name="email" type="java.lang.String" db-attribute-path="email"/>
+		<obj-attribute name="isVerified" type="boolean" db-attribute-path="isVerified"/>
+		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modifiedDate"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="phone" type="java.lang.String" db-attribute-path="phone"/>
+		<obj-attribute name="userId" type="int" db-attribute-path="userId"/>
+	</obj-entity>
+	<obj-entity name="UserPastEvent" className="ru.together.database.entities.UserPastEvent" dbEntityName="user_past_event">
+		<obj-attribute name="createDate" type="java.time.LocalDateTime" db-attribute-path="createDate"/>
+		<obj-attribute name="deletedDate" type="java.time.LocalDateTime" db-attribute-path="deletedDate"/>
+		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modifiedDate"/>
+	</obj-entity>
+	<obj-entity name="UserSession" className="ru.together.database.entities.UserSession" dbEntityName="user_session">
+		<obj-attribute name="createdDate" type="java.time.LocalDateTime" db-attribute-path="createdDate"/>
+		<obj-attribute name="deletedDate" type="java.time.LocalDateTime" db-attribute-path="deletedDate"/>
+		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modifiedDate"/>
+	</obj-entity>
+	<obj-entity name="UserTicket" className="ru.together.database.entities.UserTicket" dbEntityName="user_ticket">
+		<obj-attribute name="createdDate" type="java.time.LocalDateTime" db-attribute-path="createdDate"/>
+		<obj-attribute name="deletedDate" type="java.time.LocalDateTime" db-attribute-path="deletedDate"/>
+		<obj-attribute name="link" type="java.lang.String" db-attribute-path="link"/>
+		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modifiedDate"/>
+	</obj-entity>
 	<db-relationship name="eventToPast" source="event" target="user_past_event" toMany="true">
 		<db-attribute-pair source="id" target="eventId"/>
 	</db-relationship>
@@ -82,4 +124,11 @@
 	<db-relationship name="ticketToUser" source="user_ticket" target="user" toMany="false">
 		<db-attribute-pair source="userId" target="id"/>
 	</db-relationship>
+	<obj-relationship name="eventToPast" source="Event" target="UserPastEvent" deleteRule="Deny" db-relationship-path="eventToPast"/>
+	<obj-relationship name="eventToTicket" source="Event" target="UserTicket" deleteRule="Deny" db-relationship-path="eventToTicket"/>
+	<obj-relationship name="userToPast" source="User" target="UserPastEvent" deleteRule="Deny" db-relationship-path="userToPast"/>
+	<obj-relationship name="userToTicket" source="User" target="UserTicket" deleteRule="Deny" db-relationship-path="userToTicket"/>
+	<obj-relationship name="pastToEvent" source="UserPastEvent" target="Event" deleteRule="Nullify" db-relationship-path="pastToEvent"/>
+	<obj-relationship name="sessionToUser" source="UserSession" target="User" deleteRule="Nullify" db-relationship-path="sessionToUser"/>
+	<obj-relationship name="ticketToEvent" source="UserTicket" target="Event" deleteRule="Nullify" db-relationship-path="ticketToEvent"/>
 </data-map>

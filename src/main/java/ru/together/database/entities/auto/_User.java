@@ -7,7 +7,6 @@ import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.exp.Property;
 
 import ru.together.database.entities.UserPastEvent;
-import ru.together.database.entities.UserSession;
 import ru.together.database.entities.UserTicket;
 
 /**
@@ -25,11 +24,12 @@ public abstract class _User extends CayenneDataObject {
     public static final Property<LocalDateTime> CREATED_DATE = Property.create("createdDate", LocalDateTime.class);
     public static final Property<LocalDateTime> DELETED_DATE = Property.create("deletedDate", LocalDateTime.class);
     public static final Property<String> EMAIL = Property.create("email", String.class);
+    public static final Property<Boolean> IS_VERIFIED = Property.create("isVerified", Boolean.class);
     public static final Property<LocalDateTime> MODIFIED_DATE = Property.create("modifiedDate", LocalDateTime.class);
     public static final Property<String> NAME = Property.create("name", String.class);
+    public static final Property<String> PHONE = Property.create("phone", String.class);
     public static final Property<Integer> USER_ID = Property.create("userId", Integer.class);
     public static final Property<List<UserPastEvent>> USER_TO_PAST = Property.create("userToPast", List.class);
-    public static final Property<List<UserSession>> USER_TO_SESSION = Property.create("userToSession", List.class);
     public static final Property<List<UserTicket>> USER_TO_TICKET = Property.create("userToTicket", List.class);
 
     public void setCreatedDate(LocalDateTime createdDate) {
@@ -53,6 +53,14 @@ public abstract class _User extends CayenneDataObject {
         return (String)readProperty("email");
     }
 
+    public void setIsVerified(boolean isVerified) {
+        writeProperty("isVerified", isVerified);
+    }
+	public boolean isIsVerified() {
+        Boolean value = (Boolean)readProperty("isVerified");
+        return (value != null) ? value.booleanValue() : false;
+    }
+
     public void setModifiedDate(LocalDateTime modifiedDate) {
         writeProperty("modifiedDate", modifiedDate);
     }
@@ -65,6 +73,13 @@ public abstract class _User extends CayenneDataObject {
     }
     public String getName() {
         return (String)readProperty("name");
+    }
+
+    public void setPhone(String phone) {
+        writeProperty("phone", phone);
+    }
+    public String getPhone() {
+        return (String)readProperty("phone");
     }
 
     public void setUserId(int userId) {
@@ -84,18 +99,6 @@ public abstract class _User extends CayenneDataObject {
     @SuppressWarnings("unchecked")
     public List<UserPastEvent> getUserToPast() {
         return (List<UserPastEvent>)readProperty("userToPast");
-    }
-
-
-    public void addToUserToSession(UserSession obj) {
-        addToManyTarget("userToSession", obj, true);
-    }
-    public void removeFromUserToSession(UserSession obj) {
-        removeToManyTarget("userToSession", obj, true);
-    }
-    @SuppressWarnings("unchecked")
-    public List<UserSession> getUserToSession() {
-        return (List<UserSession>)readProperty("userToSession");
     }
 
 

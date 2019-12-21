@@ -13,4 +13,6 @@ public class SessionResponse {
 
     boolean logged;
 
+    String error;
+
 }

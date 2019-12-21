@@ -24,9 +24,6 @@ public class StrongPkGenerator extends PostgresPkGenerator {
 
     @Override
     protected String createSequenceString(DbEntity ent) {
-        // note that PostgreSQL 7.4 and newer supports INCREMENT BY and START WITH
-        // however 7.3 doesn't like BY and WITH, so using older more neutral
-        // syntax that works with all tested versions.
         return "CREATE SEQUENCE IF NOT EXISTS" + sequenceName(ent) + " INCREMENT 1 START " + pkStartValue;
     }
 
@@ -44,7 +41,6 @@ public class StrongPkGenerator extends PostgresPkGenerator {
         String sql = selectNextValQuery(pkGeneratingSequenceName);
 
         try (Connection con = node.getDataSource().getConnection()) {
-            //если не получилось достать значение - может быть просто нет генератора?
             try (Statement st = con.createStatement()) {
                 String createGeneratorSql = createSequenceString(entity);
                 adapter.getJdbcEventLogger().log(createGeneratorSql);
@@ -66,7 +62,7 @@ public class StrongPkGenerator extends PostgresPkGenerator {
 
     @Override
     public Object generatePk(DataNode node, DbAttribute pk) throws Exception {
-        if (pk.getType() == Types.OTHER){
+        if (pk.getType() == Types.OTHER) {
             return UUID.randomUUID();
         }
         return super.generatePk(node, pk);

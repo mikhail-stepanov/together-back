@@ -13,4 +13,6 @@ public class SignUpResponse {
 
     boolean success;
 
+    String error;
+
 }

@@ -13,4 +13,6 @@ public class LoginResponse {
 
     boolean success;
 
+    String error;
+
 }
