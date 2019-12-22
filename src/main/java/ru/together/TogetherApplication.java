@@ -3,7 +3,7 @@ package ru.together;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "ru.together")
 public class TogetherApplication {
 
     public static void main(String[] args) {

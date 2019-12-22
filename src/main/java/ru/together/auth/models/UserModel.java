@@ -13,7 +13,7 @@ import java.math.BigInteger;
 @AllArgsConstructor
 public class UserModel {
 
-    BigInteger id;
+    int id;
 
     int userId;
 

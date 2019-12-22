@@ -12,6 +12,9 @@ import ru.together.database.entities.User;
 import ru.together.database.entities.UserSession;
 import ru.together.database.services.DatabaseService;
 
+import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
+
 @Service
 public class AuthService implements IAuth {
 
@@ -22,7 +25,8 @@ public class AuthService implements IAuth {
 
     protected static final Logger log = LoggerFactory.getLogger(AuthService.class);
 
-    public AuthService() {
+    @PostConstruct
+    public void init() {
         objectContext = databaseService.getContext();
     }
 
@@ -35,6 +39,7 @@ public class AuthService implements IAuth {
                     .selectFirst(objectContext);
 
             UserSession session = objectContext.newObject(UserSession.class);
+            session.setCreatedDate(LocalDateTime.now());
 
             session.setSessionToUser(user);
 
@@ -46,7 +51,7 @@ public class AuthService implements IAuth {
 
         } else return LoginResponse.builder()
                 .success(false)
-                .error("User with this email exist")
+                .error("User with this id doesn't exist")
                 .build();
     }
 
@@ -55,10 +60,11 @@ public class AuthService implements IAuth {
         if (checkEmailExist(request.getEmail())) {
             User user = objectContext.newObject(User.class);
 
+            user.setCreatedDate(LocalDateTime.now());
             user.setName(request.getName());
             user.setEmail(request.getEmail());
             user.setPhone(request.getPhone());
-            user.setUserId(Integer.parseInt(ObjectSelect.columnQuery(User.class, User.USER_ID).max(User.USER_ID).selectFirst(objectContext).toString()));
+            user.setUserId(ObjectSelect.columnQuery(User.class, User.USER_ID).selectFirst(objectContext) + 1);
             user.setIsVerified(false);
 
             objectContext.commitChanges();
@@ -81,24 +87,27 @@ public class AuthService implements IAuth {
     //TODO: Check work
     private boolean checkEmailExist(String phone) {
         try {
-            ObjectSelect.query(User.class)
+            User user = ObjectSelect.query(User.class)
                     .where(User.EMAIL.eq(phone))
                     .selectFirst(objectContext);
-            return false;
+
+            return user == null;
         } catch (Exception e) {
-            return true;
+            log.error(e.getMessage());
+            return false;
         }
     }
 
     //TODO: Check work
     private boolean checkUserId(int UserId) {
         try {
-            ObjectSelect.query(User.class)
+            User user = ObjectSelect.query(User.class)
                     .where(User.USER_ID.eq(UserId))
                     .selectFirst(objectContext);
-            return false;
+            return user != null;
         } catch (Exception e) {
-            return true;
+            log.error(e.getMessage());
+            return false;
         }
     }
 

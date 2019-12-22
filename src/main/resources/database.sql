@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS public.user
 (
-    id            uuid         NOT NULL,
+    id            int         NOT NULL,
     user_id       int          NOT NULL,
     name          varchar(255) NOT NULL,
     email         varchar(255) NULL,
     phone         varchar(255) NULL,
+    is_verified   boolean      NULL,
     created_date  timestamp    NULL,
     deleted_date  timestamp    NULL,
     modified_date timestamp    NULL,

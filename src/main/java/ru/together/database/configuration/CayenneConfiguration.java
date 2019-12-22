@@ -36,6 +36,7 @@ public class CayenneConfiguration {
 
         }
 
+        @Override
         public void prePersist(Object entity) {
             try {
                 if (entity instanceof CayenneDataObject) {

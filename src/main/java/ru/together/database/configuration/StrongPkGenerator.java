@@ -24,7 +24,7 @@ public class StrongPkGenerator extends PostgresPkGenerator {
 
     @Override
     protected String createSequenceString(DbEntity ent) {
-        return "CREATE SEQUENCE IF NOT EXISTS" + sequenceName(ent) + " INCREMENT 1 START " + pkStartValue;
+        return "CREATE SEQUENCE IF NOT EXISTS " + sequenceName(ent) + " INCREMENT 1 START " + pkStartValue;
     }
 
     @Override

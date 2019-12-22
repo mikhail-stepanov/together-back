@@ -7,6 +7,7 @@ import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.exp.Property;
 
 import ru.together.database.entities.UserPastEvent;
+import ru.together.database.entities.UserSession;
 import ru.together.database.entities.UserTicket;
 
 /**
@@ -30,7 +31,8 @@ public abstract class _User extends CayenneDataObject {
     public static final Property<String> PHONE = Property.create("phone", String.class);
     public static final Property<Integer> USER_ID = Property.create("userId", Integer.class);
     public static final Property<List<UserPastEvent>> USER_TO_PAST = Property.create("userToPast", List.class);
-    public static final Property<List<UserTicket>> USER_TO_TICKET = Property.create("userToTicket", List.class);
+    public static final Property<List<UserSession>> USER_TO_SESSION = Property.create("userToSession", List.class);
+    public static final Property<List<UserTicket>> USER_TO_TICKET1 = Property.create("userToTicket1", List.class);
 
     public void setCreatedDate(LocalDateTime createdDate) {
         writeProperty("createdDate", createdDate);
@@ -102,15 +104,27 @@ public abstract class _User extends CayenneDataObject {
     }
 
 
-    public void addToUserToTicket(UserTicket obj) {
-        addToManyTarget("userToTicket", obj, true);
+    public void addToUserToSession(UserSession obj) {
+        addToManyTarget("userToSession", obj, true);
     }
-    public void removeFromUserToTicket(UserTicket obj) {
-        removeToManyTarget("userToTicket", obj, true);
+    public void removeFromUserToSession(UserSession obj) {
+        removeToManyTarget("userToSession", obj, true);
     }
     @SuppressWarnings("unchecked")
-    public List<UserTicket> getUserToTicket() {
-        return (List<UserTicket>)readProperty("userToTicket");
+    public List<UserSession> getUserToSession() {
+        return (List<UserSession>)readProperty("userToSession");
+    }
+
+
+    public void addToUserToTicket1(UserTicket obj) {
+        addToManyTarget("userToTicket1", obj, true);
+    }
+    public void removeFromUserToTicket1(UserTicket obj) {
+        removeToManyTarget("userToTicket1", obj, true);
+    }
+    @SuppressWarnings("unchecked")
+    public List<UserTicket> getUserToTicket1() {
+        return (List<UserTicket>)readProperty("userToTicket1");
     }
 
 

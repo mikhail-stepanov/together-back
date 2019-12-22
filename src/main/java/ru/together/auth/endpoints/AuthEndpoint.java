@@ -1,6 +1,7 @@
 package ru.together.auth.endpoints;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,20 +17,19 @@ public class AuthEndpoint implements IAuth {
 
     @Override
     @RequestMapping(value = LOGIN, method = {RequestMethod.POST})
-    public LoginResponse login(LoginRequest request) {
-
-        return null;
+    public LoginResponse login(@RequestBody LoginRequest request) {
+        return authService.login(request);
     }
 
     @Override
     @RequestMapping(value = SIGN_UP, method = {RequestMethod.POST})
-    public SignUpResponse singUp(SignUpRequest request) {
-        return null;
+    public SignUpResponse singUp(@RequestBody SignUpRequest request) {
+        return authService.singUp(request);
     }
 
     @Override
     @RequestMapping(value = SESSION, method = {RequestMethod.POST})
-    public SessionResponse session(SessionRequest request) {
-        return null;
+    public SessionResponse session(@RequestBody SessionRequest request) {
+        return authService.session(request);
     }
 }
