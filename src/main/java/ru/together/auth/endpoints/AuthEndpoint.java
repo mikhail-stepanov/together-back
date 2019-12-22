@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ru.together.auth.interfaces.IAuth;
+import ru.together.auth.interfaces.IAuthService;
 import ru.together.auth.models.*;
 import ru.together.auth.services.AuthService;
 
 @RestController
-public class AuthEndpoint implements IAuth {
+public class AuthEndpoint implements IAuthService {
 
     @Autowired
     AuthService authService;

@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.together.auth.interfaces.IAuth;
+import ru.together.auth.interfaces.IAuthService;
 import ru.together.auth.models.*;
 import ru.together.database.entities.User;
 import ru.together.database.entities.UserSession;
@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 
 @Service
-public class AuthService implements IAuth {
+public class AuthService implements IAuthService {
 
     @Autowired
     DatabaseService databaseService;
