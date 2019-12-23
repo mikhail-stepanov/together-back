@@ -20,7 +20,7 @@ public abstract class _UserPastEvent extends CayenneDataObject {
 
     public static final String ID_PK_COLUMN = "id";
 
-    public static final Property<LocalDateTime> CREATE_DATE = Property.create("createDate", LocalDateTime.class);
+    public static final Property<LocalDateTime> CREATED_DATE = Property.create("createdDate", LocalDateTime.class);
     public static final Property<LocalDateTime> DELETED_DATE = Property.create("deletedDate", LocalDateTime.class);
     public static final Property<LocalDateTime> MODIFIED_DATE = Property.create("modifiedDate", LocalDateTime.class);
     public static final Property<Event> PAST_TO_EVENT = Property.create("pastToEvent", Event.class);

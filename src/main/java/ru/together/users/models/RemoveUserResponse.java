@@ -1,4 +1,4 @@
-package ru.together.users.models.crud;
+package ru.together.users.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,15 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetUserResponse {
+public class RemoveUserResponse {
 
-    int userId;
-
-    String name;
-
-    String email;
-
-    String phone;
-
-    boolean isVerified;
+    boolean success;
 }

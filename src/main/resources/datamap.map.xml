@@ -31,7 +31,7 @@
 		<db-attribute name="user_id" type="INTEGER" isMandatory="true" length="4"/>
 	</db-entity>
 	<db-entity name="user_past_event" schema="public">
-		<db-attribute name="create_date" type="TIMESTAMP" isMandatory="true"/>
+		<db-attribute name="created_date" type="TIMESTAMP" isMandatory="true"/>
 		<db-attribute name="deleted_date" type="TIMESTAMP"/>
 		<db-attribute name="event_Id" type="INTEGER" isMandatory="true"/>
 		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
@@ -79,7 +79,7 @@
 		<obj-attribute name="userId" type="int" db-attribute-path="user_id"/>
 	</obj-entity>
 	<obj-entity name="UserPastEvent" className="ru.together.database.entities.UserPastEvent" dbEntityName="user_past_event">
-		<obj-attribute name="createDate" type="java.time.LocalDateTime" db-attribute-path="create_date"/>
+		<obj-attribute name="createDate" type="java.time.LocalDateTime" db-attribute-path="created_date"/>
 		<obj-attribute name="deletedDate" type="java.time.LocalDateTime" db-attribute-path="deleted_date"/>
 		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modified_date"/>
 	</obj-entity>

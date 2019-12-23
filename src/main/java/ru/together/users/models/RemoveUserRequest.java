@@ -1,4 +1,4 @@
-package ru.together.users.models.crud;
+package ru.together.users.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListUserRequest {
+public class RemoveUserRequest {
 
+    Integer userId;
 }
