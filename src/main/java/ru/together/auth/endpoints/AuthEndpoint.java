@@ -32,4 +32,10 @@ public class AuthEndpoint implements IAuthService {
     public SessionResponse session(@RequestBody SessionRequest request) {
         return authService.session(request);
     }
+
+    @Override
+    @RequestMapping(value = INFO, method = {RequestMethod.POST})
+    public InfoResponse info(@RequestBody InfoRequest request) {
+        return authService.info(request);
+    }
 }

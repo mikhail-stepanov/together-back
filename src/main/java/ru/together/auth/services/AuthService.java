@@ -14,6 +14,7 @@ import ru.together.database.services.DatabaseService;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @Service
 public class AuthService implements IAuthService {
@@ -58,13 +59,15 @@ public class AuthService implements IAuthService {
     @Override
     public SignUpResponse singUp(SignUpRequest request) {
         if (checkEmailExist(request.getEmail())) {
+
+            Random random = new Random();
             User user = objectContext.newObject(User.class);
 
             user.setCreatedDate(LocalDateTime.now());
             user.setName(request.getName());
             user.setEmail(request.getEmail());
             user.setPhone(request.getPhone());
-            user.setUserId(ObjectSelect.columnQuery(User.class, User.USER_ID).selectFirst(objectContext) + 1);
+            user.setUserId(random.nextInt(10000));
             user.setIsVerified(false);
 
             objectContext.commitChanges();
@@ -82,6 +85,26 @@ public class AuthService implements IAuthService {
     @Override
     public SessionResponse session(SessionRequest request) {
         return null;
+    }
+
+    @Override
+    public InfoResponse info(InfoRequest request) {
+        if (checkUserId(request.getUserId())) {
+
+            User user = ObjectSelect.query(User.class)
+                    .where(User.USER_ID.eq(request.getUserId()))
+                    .selectFirst(objectContext);
+
+            return InfoResponse.builder()
+                    .success(true)
+                    .name(user.getName())
+                    .userId(user.getUserId())
+                    .build();
+
+        } else return InfoResponse.builder()
+                .success(false)
+                .error("User with this id doesn't exist")
+                .build();
     }
 
     //TODO: Check work

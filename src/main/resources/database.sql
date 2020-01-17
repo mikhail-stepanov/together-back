@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS public.user
 (
-    id            int         NOT NULL,
+    id            int          NOT NULL,
     user_id       int          NOT NULL,
     name          varchar(255) NOT NULL,
     email         varchar(255) NULL,
     phone         varchar(255) NULL,
+    pic_url       varchar(255) NULL,
     is_verified   boolean      NULL,
     created_date  timestamp    NULL,
     deleted_date  timestamp    NULL,
@@ -14,18 +15,18 @@ CREATE TABLE IF NOT EXISTS public.user
 
 CREATE TABLE IF NOT EXISTS public.user_session
 (
-    id            uuid      NOT NULL,
+    id            int       NOT NULL,
     created_date  timestamp NULL,
     deleted_date  timestamp NULL,
     modified_date timestamp NULL,
-    user_id       uuid      NOT NULL,
+    user_id       int       NOT NULL,
     CONSTRAINT user_session_pkey PRIMARY KEY (id),
     CONSTRAINT user_session_fkey FOREIGN KEY (user_id) REFERENCES public.user (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.event
 (
-    id            uuid          NOT NULL,
+    id            int           NOT NULL,
     title         varchar(255)  NOT NULL,
     date          timestamp     NOT NULL,
     place         varchar(255)  NOT NULL,
@@ -43,9 +44,9 @@ CREATE TABLE IF NOT EXISTS public.event
 
 CREATE TABLE IF NOT EXISTS public.user_past_event
 (
-    id            uuid      NOT NULL,
-    user_id       uuid      NOT NULL,
-    event_id      uuid      NOT NULL,
+    id            int       NOT NULL,
+    user_id       int       NOT NULL,
+    event_id      int       NOT NULL,
     created_date  timestamp NULL,
     deleted_date  timestamp NULL,
     modified_date timestamp NULL,
@@ -56,9 +57,9 @@ CREATE TABLE IF NOT EXISTS public.user_past_event
 
 CREATE TABLE IF NOT EXISTS public.user_ticket
 (
-    id            uuid      NOT NULL,
-    user_id       uuid      NOT NULL,
-    event_id      uuid      NOT NULL,
+    id            int       NOT NULL,
+    user_id       int       NOT NULL,
+    event_id      int       NOT NULL,
     link          varchar(255) NULL,
     created_date  timestamp NULL,
     deleted_date  timestamp NULL,
