@@ -38,16 +38,21 @@ public class AuthService implements IAuthService {
             User user = ObjectSelect.query(User.class)
                     .where(User.USER_ID.eq(request.getUserId()))
                     .selectFirst(objectContext);
+            if (user.isIsVerified()) {
 
-            UserSession session = objectContext.newObject(UserSession.class);
-            session.setCreatedDate(LocalDateTime.now());
+                UserSession session = objectContext.newObject(UserSession.class);
+                session.setCreatedDate(LocalDateTime.now());
 
-            session.setSessionToUser(user);
+                session.setSessionToUser(user);
 
-            objectContext.commitChanges();
+                objectContext.commitChanges();
 
-            return LoginResponse.builder()
-                    .success(true)
+                return LoginResponse.builder()
+                        .success(true)
+                        .build();
+            }else return LoginResponse.builder()
+                    .success(false)
+                    .error("User with this id doesn't verified")
                     .build();
 
         } else return LoginResponse.builder()
@@ -61,13 +66,20 @@ public class AuthService implements IAuthService {
         if (checkEmailExist(request.getEmail())) {
 
             Random random = new Random();
-            User user = objectContext.newObject(User.class);
+            int newId;
 
+            do {
+                newId = random.nextInt(10000);
+            } while (checkUserId(newId));
+
+            User user = objectContext.newObject(User.class);
             user.setCreatedDate(LocalDateTime.now());
             user.setName(request.getName());
             user.setEmail(request.getEmail());
             user.setPhone(request.getPhone());
-            user.setUserId(random.nextInt(10000));
+            user.setUserId(newId);
+            user.setInstagram(request.getInstagram());
+            user.setFacebook(request.getFacebook());
             user.setIsVerified(false);
 
             objectContext.commitChanges();
@@ -107,7 +119,6 @@ public class AuthService implements IAuthService {
                 .build();
     }
 
-    //TODO: Check work
     private boolean checkEmailExist(String phone) {
         try {
             User user = ObjectSelect.query(User.class)
@@ -121,7 +132,6 @@ public class AuthService implements IAuthService {
         }
     }
 
-    //TODO: Check work
     private boolean checkUserId(int UserId) {
         try {
             User user = ObjectSelect.query(User.class)

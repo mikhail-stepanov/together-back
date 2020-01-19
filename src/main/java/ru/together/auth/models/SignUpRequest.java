@@ -17,4 +17,8 @@ public class SignUpRequest {
 
     String phone;
 
+    String facebook;
+
+    String instagram;
+
 }

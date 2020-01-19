@@ -31,6 +31,7 @@ public abstract class _Event extends CayenneDataObject {
     public static final Property<String> PIC_URL = Property.create("picUrl", String.class);
     public static final Property<String> PLACE = Property.create("place", String.class);
     public static final Property<String> SOUNDCLOUD = Property.create("soundcloud", String.class);
+    public static final Property<String> TICKETCLOUD = Property.create("ticketcloud", String.class);
     public static final Property<String> TITLE = Property.create("title", String.class);
     public static final Property<String> YOUTUBE = Property.create("youtube", String.class);
     public static final Property<List<UserPastEvent>> EVENT_TO_PAST = Property.create("eventToPast", List.class);
@@ -105,6 +106,13 @@ public abstract class _Event extends CayenneDataObject {
     }
     public String getSoundcloud() {
         return (String)readProperty("soundcloud");
+    }
+
+    public void setTicketcloud(String ticketcloud) {
+        writeProperty("ticketcloud", ticketcloud);
+    }
+    public String getTicketcloud() {
+        return (String)readProperty("ticketcloud");
     }
 
     public void setTitle(String title) {

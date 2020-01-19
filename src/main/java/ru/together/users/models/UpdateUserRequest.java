@@ -21,6 +21,12 @@ public class UpdateUserRequest {
 
     String phone;
 
+    String facebook;
+
+    String picUrl;
+
+    String instagram;
+
     Boolean isVerified;
 
 }

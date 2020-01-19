@@ -21,6 +21,12 @@ public class GetUserResponse {
 
     String phone;
 
+    String facebook;
+
+    String instagram;
+
+    String picUrl;
+
     boolean isVerified;
 
 }

@@ -16,6 +16,7 @@
 		<db-attribute name="pic_url" type="VARCHAR" isMandatory="true" length="255"/>
 		<db-attribute name="place" type="VARCHAR" isMandatory="true" length="255"/>
 		<db-attribute name="soundcloud" type="VARCHAR" length="1000"/>
+		<db-attribute name="ticketcloud" type="VARCHAR" length="1000"/>
 		<db-attribute name="title" type="VARCHAR" isMandatory="true" length="255"/>
 		<db-attribute name="youtube" type="VARCHAR" length="1000"/>
 	</db-entity>
@@ -23,11 +24,14 @@
 		<db-attribute name="created_date" type="TIMESTAMP" isMandatory="true"/>
 		<db-attribute name="deleted_date" type="TIMESTAMP"/>
 		<db-attribute name="email" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="facebook" type="VARCHAR" length="255"/>
 		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="instagram" type="VARCHAR" length="255"/>
 		<db-attribute name="is_verified" type="BOOLEAN" isMandatory="true"/>
 		<db-attribute name="modified_date" type="TIMESTAMP"/>
 		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="255"/>
 		<db-attribute name="phone" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="pic_url" type="VARCHAR" length="255"/>
 		<db-attribute name="user_id" type="INTEGER" isMandatory="true" length="4"/>
 	</db-entity>
 	<db-entity name="user_past_event" schema="public">
@@ -65,6 +69,7 @@
 		<obj-attribute name="picUrl" type="java.lang.String" db-attribute-path="pic_url"/>
 		<obj-attribute name="place" type="java.lang.String" db-attribute-path="place"/>
 		<obj-attribute name="soundcloud" type="java.lang.String" db-attribute-path="soundcloud"/>
+		<obj-attribute name="ticketcloud" type="java.lang.String" db-attribute-path="ticketcloud"/>
 		<obj-attribute name="title" type="java.lang.String" db-attribute-path="title"/>
 		<obj-attribute name="youtube" type="java.lang.String" db-attribute-path="youtube"/>
 	</obj-entity>
@@ -72,14 +77,17 @@
 		<obj-attribute name="createdDate" type="java.time.LocalDateTime" db-attribute-path="created_date"/>
 		<obj-attribute name="deletedDate" type="java.time.LocalDateTime" db-attribute-path="deleted_date"/>
 		<obj-attribute name="email" type="java.lang.String" db-attribute-path="email"/>
+		<obj-attribute name="facebook" type="java.lang.String" db-attribute-path="facebook"/>
+		<obj-attribute name="instagram" type="java.lang.String" db-attribute-path="instagram"/>
 		<obj-attribute name="isVerified" type="boolean" db-attribute-path="is_verified"/>
 		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modified_date"/>
 		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
 		<obj-attribute name="phone" type="java.lang.String" db-attribute-path="phone"/>
+		<obj-attribute name="picUrl" type="java.lang.String" db-attribute-path="pic_url"/>
 		<obj-attribute name="userId" type="int" db-attribute-path="user_id"/>
 	</obj-entity>
 	<obj-entity name="UserPastEvent" className="ru.together.database.entities.UserPastEvent" dbEntityName="user_past_event">
-		<obj-attribute name="createDate" type="java.time.LocalDateTime" db-attribute-path="created_date"/>
+		<obj-attribute name="createdDate" type="java.time.LocalDateTime" db-attribute-path="created_date"/>
 		<obj-attribute name="deletedDate" type="java.time.LocalDateTime" db-attribute-path="deleted_date"/>
 		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modified_date"/>
 	</obj-entity>
@@ -106,7 +114,7 @@
 	<db-relationship name="userToSession" source="user" target="user_session" toMany="true">
 		<db-attribute-pair source="id" target="user_id"/>
 	</db-relationship>
-	<db-relationship name="userToTicket1" source="user" target="user_ticket" toMany="true">
+	<db-relationship name="userToTicket" source="user" target="user_ticket" toMany="true">
 		<db-attribute-pair source="id" target="user_id"/>
 	</db-relationship>
 	<db-relationship name="pastToEvent" source="user_past_event" target="event" toMany="false">
@@ -128,7 +136,7 @@
 	<obj-relationship name="eventToTicket" source="Event" target="UserTicket" deleteRule="Deny" db-relationship-path="eventToTicket"/>
 	<obj-relationship name="userToPast" source="User" target="UserPastEvent" deleteRule="Deny" db-relationship-path="userToPast"/>
 	<obj-relationship name="userToSession" source="User" target="UserSession" deleteRule="Deny" db-relationship-path="userToSession"/>
-	<obj-relationship name="userToTicket1" source="User" target="UserTicket" deleteRule="Deny" db-relationship-path="userToTicket1"/>
+	<obj-relationship name="userToTicket" source="User" target="UserTicket" deleteRule="Deny" db-relationship-path="userToTicket"/>
 	<obj-relationship name="pastToEvent" source="UserPastEvent" target="Event" deleteRule="Nullify" db-relationship-path="pastToEvent"/>
 	<obj-relationship name="pastToUser" source="UserPastEvent" target="User" deleteRule="Nullify" db-relationship-path="pastToUser"/>
 	<obj-relationship name="sessionToUser" source="UserSession" target="User" deleteRule="Nullify" db-relationship-path="sessionToUser"/>

@@ -25,14 +25,17 @@ public abstract class _User extends CayenneDataObject {
     public static final Property<LocalDateTime> CREATED_DATE = Property.create("createdDate", LocalDateTime.class);
     public static final Property<LocalDateTime> DELETED_DATE = Property.create("deletedDate", LocalDateTime.class);
     public static final Property<String> EMAIL = Property.create("email", String.class);
+    public static final Property<String> FACEBOOK = Property.create("facebook", String.class);
+    public static final Property<String> INSTAGRAM = Property.create("instagram", String.class);
     public static final Property<Boolean> IS_VERIFIED = Property.create("isVerified", Boolean.class);
     public static final Property<LocalDateTime> MODIFIED_DATE = Property.create("modifiedDate", LocalDateTime.class);
     public static final Property<String> NAME = Property.create("name", String.class);
     public static final Property<String> PHONE = Property.create("phone", String.class);
+    public static final Property<String> PIC_URL = Property.create("picUrl", String.class);
     public static final Property<Integer> USER_ID = Property.create("userId", Integer.class);
     public static final Property<List<UserPastEvent>> USER_TO_PAST = Property.create("userToPast", List.class);
     public static final Property<List<UserSession>> USER_TO_SESSION = Property.create("userToSession", List.class);
-    public static final Property<List<UserTicket>> USER_TO_TICKET1 = Property.create("userToTicket1", List.class);
+    public static final Property<List<UserTicket>> USER_TO_TICKET = Property.create("userToTicket", List.class);
 
     public void setCreatedDate(LocalDateTime createdDate) {
         writeProperty("createdDate", createdDate);
@@ -53,6 +56,20 @@ public abstract class _User extends CayenneDataObject {
     }
     public String getEmail() {
         return (String)readProperty("email");
+    }
+
+    public void setFacebook(String facebook) {
+        writeProperty("facebook", facebook);
+    }
+    public String getFacebook() {
+        return (String)readProperty("facebook");
+    }
+
+    public void setInstagram(String instagram) {
+        writeProperty("instagram", instagram);
+    }
+    public String getInstagram() {
+        return (String)readProperty("instagram");
     }
 
     public void setIsVerified(boolean isVerified) {
@@ -82,6 +99,13 @@ public abstract class _User extends CayenneDataObject {
     }
     public String getPhone() {
         return (String)readProperty("phone");
+    }
+
+    public void setPicUrl(String picUrl) {
+        writeProperty("picUrl", picUrl);
+    }
+    public String getPicUrl() {
+        return (String)readProperty("picUrl");
     }
 
     public void setUserId(int userId) {
@@ -116,15 +140,15 @@ public abstract class _User extends CayenneDataObject {
     }
 
 
-    public void addToUserToTicket1(UserTicket obj) {
-        addToManyTarget("userToTicket1", obj, true);
+    public void addToUserToTicket(UserTicket obj) {
+        addToManyTarget("userToTicket", obj, true);
     }
-    public void removeFromUserToTicket1(UserTicket obj) {
-        removeToManyTarget("userToTicket1", obj, true);
+    public void removeFromUserToTicket(UserTicket obj) {
+        removeToManyTarget("userToTicket", obj, true);
     }
     @SuppressWarnings("unchecked")
-    public List<UserTicket> getUserToTicket1() {
-        return (List<UserTicket>)readProperty("userToTicket1");
+    public List<UserTicket> getUserToTicket() {
+        return (List<UserTicket>)readProperty("userToTicket");
     }
 
 

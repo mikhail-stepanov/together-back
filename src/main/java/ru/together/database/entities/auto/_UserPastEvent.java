@@ -26,11 +26,11 @@ public abstract class _UserPastEvent extends CayenneDataObject {
     public static final Property<Event> PAST_TO_EVENT = Property.create("pastToEvent", Event.class);
     public static final Property<User> PAST_TO_USER = Property.create("pastToUser", User.class);
 
-    public void setCreateDate(LocalDateTime createDate) {
-        writeProperty("createDate", createDate);
+    public void setCreatedDate(LocalDateTime createdDate) {
+        writeProperty("createdDate", createdDate);
     }
-    public LocalDateTime getCreateDate() {
-        return (LocalDateTime)readProperty("createDate");
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime)readProperty("createdDate");
     }
 
     public void setDeletedDate(LocalDateTime deletedDate) {
