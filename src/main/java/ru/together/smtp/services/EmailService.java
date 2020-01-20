@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import ru.together.auth.models.InfoResponse;
 import ru.together.database.entities.User;
 import ru.together.database.services.DatabaseService;
 import ru.together.smtp.models.SendEmailRequest;
 import ru.together.smtp.models.SendEmailResponse;
-import ru.together.users.services.UserService;
 
 import javax.annotation.PostConstruct;
 
@@ -46,7 +46,12 @@ public class EmailService {
                     .where(User.USER_ID.eq(request.getUserId()))
                     .selectFirst(objectContext);
 
-            String text = String.format(template.getText(), user.getName(), user.getUserId());
+            StringBuilder userId = new StringBuilder(Integer.toString(user.getUserId()));
+            while (userId.length()<4){
+                userId.insert(0, "0");
+            }
+
+            String text = String.format(template.getText(), user.getName(), userId);
 
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(user.getEmail());
