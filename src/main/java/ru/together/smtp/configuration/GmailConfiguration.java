@@ -18,7 +18,7 @@ public class GmailConfiguration {
         mailSender.setPort(587);
 
         mailSender.setUsername("togetherapp2020@gmail.com");
-        mailSender.setPassword("Together2020");
+        mailSender.setPassword("Together_App_2020");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
