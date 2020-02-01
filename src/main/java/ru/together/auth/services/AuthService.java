@@ -11,6 +11,8 @@ import ru.together.auth.models.*;
 import ru.together.database.entities.User;
 import ru.together.database.entities.UserSession;
 import ru.together.database.services.DatabaseService;
+import ru.together.smtp.models.SendEmailRequest;
+import ru.together.smtp.services.EmailService;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
@@ -21,6 +23,9 @@ public class AuthService implements IAuthService {
 
     @Autowired
     DatabaseService databaseService;
+
+    @Autowired
+    EmailService emailService;
 
     ObjectContext objectContext;
 
@@ -50,7 +55,7 @@ public class AuthService implements IAuthService {
                 return LoginResponse.builder()
                         .success(true)
                         .build();
-            }else return LoginResponse.builder()
+            } else return LoginResponse.builder()
                     .success(false)
                     .error("User with this id doesn't verified")
                     .build();
@@ -83,6 +88,10 @@ public class AuthService implements IAuthService {
             user.setIsVerified(false);
 
             objectContext.commitChanges();
+
+            emailService.sendSimpleMessage(SendEmailRequest.builder()
+                    .userId(newId)
+                    .build());
 
             return SignUpResponse.builder()
                     .success(true)
