@@ -85,7 +85,7 @@ public class AuthService implements IAuthService {
             user.setUserId(newId);
             user.setInstagram(request.getInstagram());
             user.setFacebook(request.getFacebook());
-            user.setIsVerified(false);
+            user.setIsVerified(true);
 
             objectContext.commitChanges();
 
