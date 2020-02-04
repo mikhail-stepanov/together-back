@@ -1,4 +1,4 @@
-package ru.together.events.models.crud;
+package ru.together.events.models;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +12,13 @@ public class UpdateEventRequest {
 
     LocalDateTime date;
 
-    String picUrl;
+    String ticketcloud;
+
+    String picBigUrl;
+
+    String picSmallUrl;
+
+    String video;
 
     String description;
 

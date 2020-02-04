@@ -1,4 +1,4 @@
-package ru.together.events.models.crud;
+package ru.together.events.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventModel {
+public class GetEventResponse {
 
     int id;
 
@@ -21,7 +21,13 @@ public class EventModel {
 
     LocalDateTime date;
 
-    String picUrl;
+    String ticketcloud;
+
+    String picBigUrl;
+
+    String picSmallUrl;
+
+    String video;
 
     String description;
 

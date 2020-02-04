@@ -1,4 +1,4 @@
-package ru.together.events.models.crud;
+package ru.together.events.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RemoveEventRequest {
+public class AddEventResponse {
 
-    int id;
-
+    boolean success;
 }

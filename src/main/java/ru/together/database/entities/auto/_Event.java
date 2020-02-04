@@ -28,11 +28,13 @@ public abstract class _Event extends CayenneDataObject {
     public static final Property<String> DESCRIPTION = Property.create("description", String.class);
     public static final Property<Boolean> IS_FUTURE = Property.create("isFuture", Boolean.class);
     public static final Property<LocalDateTime> MODIFIED_DATE = Property.create("modifiedDate", LocalDateTime.class);
-    public static final Property<String> PIC_URL = Property.create("picUrl", String.class);
+    public static final Property<String> PIC_BIG_URL = Property.create("picBigUrl", String.class);
+    public static final Property<String> PIC_SMALL_URL = Property.create("picSmallUrl", String.class);
     public static final Property<String> PLACE = Property.create("place", String.class);
     public static final Property<String> SOUNDCLOUD = Property.create("soundcloud", String.class);
     public static final Property<String> TICKETCLOUD = Property.create("ticketcloud", String.class);
     public static final Property<String> TITLE = Property.create("title", String.class);
+    public static final Property<String> VIDEO = Property.create("video", String.class);
     public static final Property<String> YOUTUBE = Property.create("youtube", String.class);
     public static final Property<List<UserPastEvent>> EVENT_TO_PAST = Property.create("eventToPast", List.class);
     public static final Property<List<UserTicket>> EVENT_TO_TICKET = Property.create("eventToTicket", List.class);
@@ -87,11 +89,18 @@ public abstract class _Event extends CayenneDataObject {
         return (LocalDateTime)readProperty("modifiedDate");
     }
 
-    public void setPicUrl(String picUrl) {
-        writeProperty("picUrl", picUrl);
+    public void setPicBigUrl(String picBigUrl) {
+        writeProperty("picBigUrl", picBigUrl);
     }
-    public String getPicUrl() {
-        return (String)readProperty("picUrl");
+    public String getPicBigUrl() {
+        return (String)readProperty("picBigUrl");
+    }
+
+    public void setPicSmallUrl(String picSmallUrl) {
+        writeProperty("picSmallUrl", picSmallUrl);
+    }
+    public String getPicSmallUrl() {
+        return (String)readProperty("picSmallUrl");
     }
 
     public void setPlace(String place) {
@@ -120,6 +129,13 @@ public abstract class _Event extends CayenneDataObject {
     }
     public String getTitle() {
         return (String)readProperty("title");
+    }
+
+    public void setVideo(String video) {
+        writeProperty("video", video);
+    }
+    public String getVideo() {
+        return (String)readProperty("video");
     }
 
     public void setYoutube(String youtube) {

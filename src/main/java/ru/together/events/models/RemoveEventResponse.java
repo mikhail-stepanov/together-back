@@ -1,4 +1,4 @@
-package ru.together.events.models.crud;
+package ru.together.events.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
