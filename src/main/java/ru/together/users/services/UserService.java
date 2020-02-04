@@ -35,47 +35,27 @@ public class UserService implements IUserService {
 
     @Override
     public GetUserResponse get(GetUserRequest request) {
+        try {
+            User user = null;
+            //by id
+            if (request.getId() != null) {
 
-        User user = null;
-        //by id
-        if (request.getId() != null) {
+                user = SelectById.query(User.class, request.getId()).selectFirst(objectContext);
+            }
+            //by userId
+            else if (request.getUserId() != null) {
 
-            user = SelectById.query(User.class, request.getId()).selectFirst(objectContext);
-        }
-        //by userId
-        else if (request.getUserId() != null) {
+                user = ObjectSelect.query(User.class)
+                        .where(User.USER_ID.eq(request.getUserId()))
+                        .selectFirst(objectContext);
+            }
+            //by email
+            else if (request.getEmail() != null) {
+                user = ObjectSelect.query(User.class).where(User.EMAIL.eq(request.getEmail()))
+                        .selectFirst(objectContext);
+            }
 
-            user = ObjectSelect.query(User.class)
-                    .where(User.USER_ID.eq(request.getUserId()))
-                    .selectFirst(objectContext);
-        }
-        //by email
-        else if (request.getEmail() != null) {
-            user = ObjectSelect.query(User.class).where(User.EMAIL.eq(request.getEmail()))
-                    .selectFirst(objectContext);
-        }
-
-        return GetUserResponse.builder()
-                .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
-                .userId(user.getUserId())
-                .name(user.getName())
-                .phone(user.getPhone())
-                .email(user.getEmail())
-                .facebook(user.getFacebook())
-                .instagram(user.getInstagram())
-                .picUrl(user.getPicUrl())
-                .isVerified(user.isIsVerified())
-                .build();
-    }
-
-    @Override
-    public ListUserResponse list() {
-
-        List<UserModel> response = new ArrayList<>();
-        List<User> users = ObjectSelect.query(User.class).select(objectContext);
-
-        users.forEach(user -> {
-            response.add(UserModel.builder()
+            return GetUserResponse.builder()
                     .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
                     .userId(user.getUserId())
                     .name(user.getName())
@@ -85,20 +65,47 @@ public class UserService implements IUserService {
                     .instagram(user.getInstagram())
                     .picUrl(user.getPicUrl())
                     .isVerified(user.isIsVerified())
-                    .build());
-        });
+                    .build();
+        } catch (Exception e) {
+            log.error("Exception while getting user: " + e.getLocalizedMessage());
+            return null;
+        }
+    }
 
-        return ListUserResponse.builder()
-                .users(response)
-                .build();
+    @Override
+    public ListUserResponse list() {
+        try {
+            List<UserModel> response = new ArrayList<>();
+            List<User> users = ObjectSelect.query(User.class).
+                    where(User.DELETED_DATE.isNull())
+                    .select(objectContext);
 
+            users.forEach(user -> {
+                response.add(UserModel.builder()
+                        .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
+                        .userId(user.getUserId())
+                        .name(user.getName())
+                        .phone(user.getPhone())
+                        .email(user.getEmail())
+                        .facebook(user.getFacebook())
+                        .instagram(user.getInstagram())
+                        .picUrl(user.getPicUrl())
+                        .isVerified(user.isIsVerified())
+                        .build());
+            });
+
+            return ListUserResponse.builder()
+                    .users(response)
+                    .build();
+        } catch (Exception e) {
+            log.error("Exception while getting list of users: " + e.getLocalizedMessage());
+            return null;
+        }
     }
 
     @Override
     public UpdateUserResponse update(UpdateUserRequest request) {
-
         try {
-
             User user = SelectById.query(User.class, request.getId()).selectFirst(objectContext);
             user.setUserId(Optional.ofNullable(request.getUserId()).orElse(user.getUserId()));
             user.setEmail(Optional.ofNullable(request.getEmail()).orElse(user.getEmail()));
@@ -124,7 +131,7 @@ public class UserService implements IUserService {
                     .build();
 
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Exception while updating user: " + e.getMessage());
             return null;
         }
     }
@@ -144,7 +151,7 @@ public class UserService implements IUserService {
                     .success(true)
                     .build();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Exception while removing user: " + e.getMessage());
             return RemoveUserResponse.builder()
                     .success(false)
                     .build();

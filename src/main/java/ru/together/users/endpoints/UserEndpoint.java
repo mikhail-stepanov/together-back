@@ -13,29 +13,29 @@ import ru.together.users.services.UserService;
 public class UserEndpoint implements IUserService {
 
     @Autowired
-    UserService userAdminService;
+    UserService userService;
 
     @Override
     @RequestMapping(value = USER_GET, method = {RequestMethod.POST})
     public GetUserResponse get(@RequestBody GetUserRequest request) {
-        return userAdminService.get(request);
+        return userService.get(request);
     }
 
     @Override
     @RequestMapping(value = USER_LIST, method = {RequestMethod.GET})
     public ListUserResponse list() {
-        return userAdminService.list();
+        return userService.list();
     }
 
     @Override
     @RequestMapping(value = USER_UPDATE, method = {RequestMethod.POST})
     public UpdateUserResponse update(@RequestBody UpdateUserRequest request) {
-        return userAdminService.update(request);
+        return userService.update(request);
     }
 
     @Override
     @RequestMapping(value = USER_REMOVE, method = {RequestMethod.POST})
     public RemoveUserResponse remove(@RequestBody RemoveUserRequest request) {
-        return userAdminService.remove(request);
+        return userService.remove(request);
     }
 }
