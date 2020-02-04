@@ -19,7 +19,7 @@ public class UpdateEventRequest {
 
     String place;
 
-    LocalDateTime date;
+    String date;
 
     String ticketcloud;
 

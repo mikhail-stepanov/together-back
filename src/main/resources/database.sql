@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS public.event
 (
     id            int           NOT NULL,
     title         varchar(255)  NOT NULL,
-    date          timestamp     NOT NULL,
+    date          varchar(255)  NOT NULL,
     place         varchar(255)  NOT NULL,
     description   varchar(1024) NOT NULL,
     pic_big_url   varchar(255)  NOT NULL,

@@ -19,7 +19,7 @@ public class GetEventResponse {
 
     String place;
 
-    LocalDateTime date;
+    String date;
 
     String ticketcloud;
 

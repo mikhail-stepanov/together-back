@@ -19,7 +19,7 @@ public class EventModel {
 
     String place;
 
-    LocalDateTime date;
+    String date;
 
     String ticketcloud;
 

@@ -17,7 +17,7 @@ public class AddEventRequest {
 
     String place;
 
-    LocalDateTime date;
+    String date;
 
     String ticketcloud;
 
