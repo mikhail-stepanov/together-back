@@ -33,7 +33,7 @@ public class GmailConfiguration {
     public SimpleMailMessage templateSimpleMessage() {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText(
-                "Уважаемый %s!\n\nВаша заявка в приложение TOGETHER успешно подтверждена.\n" +
+                "Уважаемый(-ая) %s!\n\nВаша заявка в приложение TOGETHER успешно подтверждена.\n" +
                         "Ваш ID - %s.\n\nС уважением, команда TOGETHER!");
 
         return message;

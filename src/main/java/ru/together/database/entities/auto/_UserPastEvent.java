@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.exp.Property;
 
-import ru.together.database.entities.Event;
 import ru.together.database.entities.User;
 
 /**
@@ -23,7 +22,6 @@ public abstract class _UserPastEvent extends CayenneDataObject {
     public static final Property<LocalDateTime> CREATED_DATE = Property.create("createdDate", LocalDateTime.class);
     public static final Property<LocalDateTime> DELETED_DATE = Property.create("deletedDate", LocalDateTime.class);
     public static final Property<LocalDateTime> MODIFIED_DATE = Property.create("modifiedDate", LocalDateTime.class);
-    public static final Property<Event> PAST_TO_EVENT = Property.create("pastToEvent", Event.class);
     public static final Property<User> PAST_TO_USER = Property.create("pastToUser", User.class);
 
     public void setCreatedDate(LocalDateTime createdDate) {
@@ -46,15 +44,6 @@ public abstract class _UserPastEvent extends CayenneDataObject {
     public LocalDateTime getModifiedDate() {
         return (LocalDateTime)readProperty("modifiedDate");
     }
-
-    public void setPastToEvent(Event pastToEvent) {
-        setToOneTarget("pastToEvent", pastToEvent, true);
-    }
-
-    public Event getPastToEvent() {
-        return (Event)readProperty("pastToEvent");
-    }
-
 
     public void setPastToUser(User pastToUser) {
         setToOneTarget("pastToUser", pastToUser, true);

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.exp.Property;
 
-import ru.together.database.entities.Event;
 import ru.together.database.entities.User;
 
 /**
@@ -24,7 +23,6 @@ public abstract class _UserTicket extends CayenneDataObject {
     public static final Property<LocalDateTime> DELETED_DATE = Property.create("deletedDate", LocalDateTime.class);
     public static final Property<String> LINK = Property.create("link", String.class);
     public static final Property<LocalDateTime> MODIFIED_DATE = Property.create("modifiedDate", LocalDateTime.class);
-    public static final Property<Event> TICKET_TO_EVENT = Property.create("ticketToEvent", Event.class);
     public static final Property<User> TICKET_TO_USER = Property.create("ticketToUser", User.class);
 
     public void setCreatedDate(LocalDateTime createdDate) {
@@ -54,15 +52,6 @@ public abstract class _UserTicket extends CayenneDataObject {
     public LocalDateTime getModifiedDate() {
         return (LocalDateTime)readProperty("modifiedDate");
     }
-
-    public void setTicketToEvent(Event ticketToEvent) {
-        setToOneTarget("ticketToEvent", ticketToEvent, true);
-    }
-
-    public Event getTicketToEvent() {
-        return (Event)readProperty("ticketToEvent");
-    }
-
 
     public void setTicketToUser(User ticketToUser) {
         setToOneTarget("ticketToUser", ticketToUser, true);

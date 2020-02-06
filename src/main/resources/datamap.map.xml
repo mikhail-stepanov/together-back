@@ -7,7 +7,7 @@
 	<db-entity name="event" schema="public">
 		<db-attribute name="cloud" type="VARCHAR" length="1000"/>
 		<db-attribute name="created_date" type="TIMESTAMP" isMandatory="true"/>
-		<db-attribute name="date" type="TIMESTAMP" isMandatory="true"/>
+		<db-attribute name="date" type="VARCHAR" isMandatory="true" length="255"/>
 		<db-attribute name="deleted_date" type="TIMESTAMP"/>
 		<db-attribute name="description" type="VARCHAR" isMandatory="true" length="5000"/>
 		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
@@ -63,7 +63,7 @@
 	<obj-entity name="Event" className="ru.together.database.entities.Event" dbEntityName="event">
 		<obj-attribute name="cloud" type="java.lang.String" db-attribute-path="cloud"/>
 		<obj-attribute name="createdDate" type="java.time.LocalDateTime" db-attribute-path="created_date"/>
-		<obj-attribute name="date" type="java.time.LocalDateTime" db-attribute-path="date"/>
+		<obj-attribute name="date" type="java.lang.String" db-attribute-path="date"/>
 		<obj-attribute name="deletedDate" type="java.time.LocalDateTime" db-attribute-path="deleted_date"/>
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
 		<obj-attribute name="isFuture" type="boolean" db-attribute-path="is_future"/>

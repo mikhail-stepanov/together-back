@@ -34,6 +34,18 @@ public class UserEndpoint implements IUserService {
     }
 
     @Override
+    @RequestMapping(value = USER_VERIFY, method = {RequestMethod.POST})
+    public UpdateUserResponse verify(UpdateUserRequest request) {
+        return userService.verify(request);
+    }
+
+    @Override
+    @RequestMapping(value = USER_EMAIL, method = {RequestMethod.POST})
+    public ResendEmailResponse resendEmail(ResendEmailRequest request) {
+        return userService.resendEmail(request);
+    }
+
+    @Override
     @RequestMapping(value = USER_REMOVE, method = {RequestMethod.POST})
     public RemoveUserResponse remove(@RequestBody RemoveUserRequest request) {
         return userService.remove(request);

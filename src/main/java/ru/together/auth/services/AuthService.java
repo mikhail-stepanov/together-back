@@ -47,7 +47,6 @@ public class AuthService implements IAuthService {
 
                 UserSession session = objectContext.newObject(UserSession.class);
                 session.setCreatedDate(LocalDateTime.now());
-
                 session.setSessionToUser(user);
 
                 objectContext.commitChanges();
@@ -85,13 +84,13 @@ public class AuthService implements IAuthService {
             user.setUserId(newId);
             user.setInstagram(request.getInstagram());
             user.setFacebook(request.getFacebook());
-            user.setIsVerified(true);
+            user.setIsVerified(false);
 
             objectContext.commitChanges();
 
-            emailService.sendSimpleMessage(SendEmailRequest.builder()
-                    .userId(newId)
-                    .build());
+//            emailService.sendSimpleMessage(SendEmailRequest.builder()
+//                    .userId(newId)
+//                    .build());
 
             return SignUpResponse.builder()
                     .success(true)

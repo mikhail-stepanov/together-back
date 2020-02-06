@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.together.database.entities.User;
 import ru.together.database.services.DatabaseService;
+import ru.together.smtp.models.SendEmailRequest;
+import ru.together.smtp.services.EmailService;
 import ru.together.users.interfaces.IUserService;
 import ru.together.users.models.*;
 
@@ -23,6 +25,9 @@ public class UserService implements IUserService {
 
     @Autowired
     DatabaseService databaseService;
+
+    @Autowired
+    EmailService emailService;
 
     ObjectContext objectContext;
 
@@ -133,6 +138,56 @@ public class UserService implements IUserService {
         } catch (Exception e) {
             log.error("Exception while updating user: " + e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public UpdateUserResponse verify(UpdateUserRequest request) {
+        try {
+            User user = SelectById.query(User.class, request.getId()).selectFirst(objectContext);
+
+            user.setIsVerified(Optional.ofNullable(request.getIsVerified()).orElse(user.isIsVerified()));
+
+            objectContext.commitChanges();
+
+            emailService.sendSimpleMessage(SendEmailRequest.builder()
+                    .userId(user.getUserId())
+                    .build());
+
+            return UpdateUserResponse.builder()
+                    .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .isVerified(user.isIsVerified())
+                    .userId(user.getUserId())
+                    .phone(user.getPhone())
+                    .facebook(user.getFacebook())
+                    .instagram(user.getInstagram())
+                    .picUrl(user.getPicUrl())
+                    .build();
+
+        } catch (Exception e) {
+            log.error("Exception while resending email: " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public ResendEmailResponse resendEmail(ResendEmailRequest request) {
+        try {
+            emailService.sendSimpleMessage(SendEmailRequest.builder()
+                    .userId(request.getUserId())
+                    .build());
+
+            return ResendEmailResponse.builder()
+                    .success(true)
+                    .build();
+
+        } catch (Exception e) {
+            log.error("Exception while resending email: " + e.getLocalizedMessage());
+            return ResendEmailResponse.builder()
+                    .success(false)
+                    .build();
         }
     }
 

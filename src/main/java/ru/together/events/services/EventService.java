@@ -37,7 +37,8 @@ public class EventService implements IEventService {
     @Override
     public AddEventResponse add(AddEventRequest request) {
         try {
-            Event event = new Event();
+            Event event = objectContext.newObject(Event.class);
+            event.setCreatedDate(LocalDateTime.now());
             event.setTitle(request.getTitle());
             event.setDate(request.getDate());
             event.setPlace(request.getPlace());
@@ -129,8 +130,7 @@ public class EventService implements IEventService {
         try {
             List<EventModel> response = new ArrayList<>();
             List<Event> events = ObjectSelect.query(Event.class).
-                    where(Event.DELETED_DATE.isNull())
-                    .where(Event.IS_FUTURE.isTrue())
+                    where(Event.DELETED_DATE.isNull()).and(Event.IS_FUTURE.isTrue())
                     .select(objectContext);
 
             events.forEach(event -> {
@@ -165,8 +165,7 @@ public class EventService implements IEventService {
         try {
             List<EventModel> response = new ArrayList<>();
             List<Event> events = ObjectSelect.query(Event.class).
-                    where(Event.DELETED_DATE.isNull())
-                    .where(Event.IS_FUTURE.isFalse())
+                    where(Event.DELETED_DATE.isNull()).and(Event.IS_FUTURE.isFalse())
                     .select(objectContext);
 
             events.forEach(event -> {

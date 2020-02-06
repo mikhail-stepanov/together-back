@@ -23,7 +23,7 @@ public abstract class _Event extends CayenneDataObject {
 
     public static final Property<String> CLOUD = Property.create("cloud", String.class);
     public static final Property<LocalDateTime> CREATED_DATE = Property.create("createdDate", LocalDateTime.class);
-    public static final Property<LocalDateTime> DATE = Property.create("date", LocalDateTime.class);
+    public static final Property<String> DATE = Property.create("date", String.class);
     public static final Property<LocalDateTime> DELETED_DATE = Property.create("deletedDate", LocalDateTime.class);
     public static final Property<String> DESCRIPTION = Property.create("description", String.class);
     public static final Property<Boolean> IS_FUTURE = Property.create("isFuture", Boolean.class);
@@ -53,11 +53,11 @@ public abstract class _Event extends CayenneDataObject {
         return (LocalDateTime)readProperty("createdDate");
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(String date) {
         writeProperty("date", date);
     }
-    public LocalDateTime getDate() {
-        return (LocalDateTime)readProperty("date");
+    public String getDate() {
+        return (String)readProperty("date");
     }
 
     public void setDeletedDate(LocalDateTime deletedDate) {
