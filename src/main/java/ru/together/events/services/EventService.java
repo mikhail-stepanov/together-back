@@ -91,7 +91,7 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public ListEventResponse listAll() {
+    public List<EventModel> listAll() {
         try {
             List<EventModel> response = new ArrayList<>();
             List<Event> events = ObjectSelect.query(Event.class).
@@ -116,9 +116,7 @@ public class EventService implements IEventService {
                         .build());
             });
 
-            return ListEventResponse.builder()
-                    .events(response)
-                    .build();
+            return response;
         } catch (Exception e) {
             log.error("Exception while getting list of events: " + e.getLocalizedMessage());
             return null;
@@ -126,7 +124,7 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public ListEventResponse listFuture() {
+    public List<EventModel> listFuture() {
         try {
             List<EventModel> response = new ArrayList<>();
             List<Event> events = ObjectSelect.query(Event.class).
@@ -151,9 +149,7 @@ public class EventService implements IEventService {
                         .build());
             });
 
-            return ListEventResponse.builder()
-                    .events(response)
-                    .build();
+            return response;
         } catch (Exception e) {
             log.error("Exception while getting list of future events: " + e.getLocalizedMessage());
             return null;
@@ -161,7 +157,7 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public ListEventResponse listPast() {
+    public List<EventModel> listPast() {
         try {
             List<EventModel> response = new ArrayList<>();
             List<Event> events = ObjectSelect.query(Event.class).
@@ -186,9 +182,7 @@ public class EventService implements IEventService {
                         .build());
             });
 
-            return ListEventResponse.builder()
-                    .events(response)
-                    .build();
+            return response;
         } catch (Exception e) {
             log.error("Exception while getting list of past events: " + e.getLocalizedMessage());
             return null;

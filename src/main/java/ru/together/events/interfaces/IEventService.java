@@ -2,6 +2,8 @@ package ru.together.events.interfaces;
 
 import ru.together.events.models.*;
 
+import java.util.List;
+
 public interface IEventService {
 
     String EVENT_ADD = "/v1/event/add";
@@ -17,11 +19,11 @@ public interface IEventService {
 
     GetEventResponse get(GetEventRequest request);
 
-    ListEventResponse listAll();
+    List<EventModel> listAll();
 
-    ListEventResponse listFuture();
+    List<EventModel> listFuture();
 
-    ListEventResponse listPast();
+    List<EventModel> listPast();
 
     UpdateEventResponse update(UpdateEventRequest request);
 
