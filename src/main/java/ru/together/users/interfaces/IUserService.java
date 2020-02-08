@@ -2,6 +2,8 @@ package ru.together.users.interfaces;
 
 import ru.together.users.models.*;
 
+import java.util.List;
+
 public interface IUserService {
 
     String USER_GET = "/v1/user/get";
@@ -14,7 +16,7 @@ public interface IUserService {
 
     GetUserResponse get(GetUserRequest request);
 
-    ListUserResponse list();
+    List<UserModel> list();
 
     UpdateUserResponse update(UpdateUserRequest request);
 

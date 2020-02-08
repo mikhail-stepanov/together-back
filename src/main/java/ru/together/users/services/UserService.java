@@ -78,7 +78,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public ListUserResponse list() {
+    public List<UserModel> list() {
         try {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
@@ -99,9 +99,7 @@ public class UserService implements IUserService {
                         .build());
             });
 
-            return ListUserResponse.builder()
-                    .users(response)
-                    .build();
+            return response;
         } catch (Exception e) {
             log.error("Exception while getting list of users: " + e.getLocalizedMessage());
             return null;

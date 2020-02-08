@@ -9,6 +9,8 @@ import ru.together.users.interfaces.IUserService;
 import ru.together.users.models.*;
 import ru.together.users.services.UserService;
 
+import java.util.List;
+
 @RestController
 public class UserEndpoint implements IUserService {
 
@@ -23,7 +25,7 @@ public class UserEndpoint implements IUserService {
 
     @Override
     @RequestMapping(value = USER_LIST, method = {RequestMethod.GET})
-    public ListUserResponse list() {
+    public List<UserModel> list() {
         return userService.list();
     }
 
