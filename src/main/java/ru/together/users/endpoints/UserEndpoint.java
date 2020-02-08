@@ -52,14 +52,14 @@ public class UserEndpoint implements IUserService {
     @Override
     @CrossOrigin
     @RequestMapping(value = USER_VERIFY, method = {RequestMethod.POST})
-    public UpdateUserResponse verify(UpdateUserRequest request) {
+    public UpdateUserResponse verify(@RequestBody UpdateUserRequest request) {
         return userService.verify(request);
     }
 
     @Override
     @CrossOrigin
     @RequestMapping(value = USER_EMAIL, method = {RequestMethod.POST})
-    public ResendEmailResponse resendEmail(ResendEmailRequest request) {
+    public ResendEmailResponse resendEmail(@RequestBody ResendEmailRequest request) {
         return userService.resendEmail(request);
     }
 

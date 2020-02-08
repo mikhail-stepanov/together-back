@@ -200,9 +200,11 @@ public class UserService implements IUserService {
     @Override
     public UpdateUserResponse verify(UpdateUserRequest request) {
         try {
-            User user = SelectById.query(User.class, request.getId()).selectFirst(objectContext);
+            User user = ObjectSelect.query(User.class)
+                    .where(User.USER_ID.eq(request.getUserId()))
+                    .selectFirst(objectContext);
 
-            user.setIsVerified(Optional.ofNullable(request.getIsVerified()).orElse(user.isIsVerified()));
+            user.setIsVerified(true);
 
             objectContext.commitChanges();
 
