@@ -30,6 +30,20 @@ public class UserEndpoint implements IUserService {
 
     @Override
     @CrossOrigin
+    @RequestMapping(value = USER_LIST_VERIFIED, method = {RequestMethod.GET})
+    public List<UserModel> listVerified() {
+        return userService.listVerified();
+    }
+
+    @Override
+    @CrossOrigin
+    @RequestMapping(value = USER_LIST_UNVERIFIED, method = {RequestMethod.GET})
+    public List<UserModel> listUnverified() {
+        return userService.listUnverified();
+    }
+
+    @Override
+    @CrossOrigin
     @RequestMapping(value = USER_UPDATE, method = {RequestMethod.POST})
     public UpdateUserResponse update(@RequestBody UpdateUserRequest request) {
         return userService.update(request);

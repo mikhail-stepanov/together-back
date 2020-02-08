@@ -107,6 +107,64 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public List<UserModel> listVerified() {
+        try {
+            List<UserModel> response = new ArrayList<>();
+            List<User> users = ObjectSelect.query(User.class).
+                    where(User.DELETED_DATE.isNull()).and(User.IS_VERIFIED.isTrue())
+                    .select(objectContext);
+
+            users.forEach(user -> {
+                response.add(UserModel.builder()
+                        .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
+                        .userId(user.getUserId())
+                        .name(user.getName())
+                        .phone(user.getPhone())
+                        .email(user.getEmail())
+                        .facebook(user.getFacebook())
+                        .instagram(user.getInstagram())
+                        .picUrl(user.getPicUrl())
+                        .isVerified(user.isIsVerified())
+                        .build());
+            });
+
+            return response;
+        } catch (Exception e) {
+            log.error("Exception while getting list of users: " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<UserModel> listUnverified() {
+        try {
+            List<UserModel> response = new ArrayList<>();
+            List<User> users = ObjectSelect.query(User.class).
+                    where(User.DELETED_DATE.isNull()).and(User.IS_VERIFIED.isFalse())
+                    .select(objectContext);
+
+            users.forEach(user -> {
+                response.add(UserModel.builder()
+                        .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
+                        .userId(user.getUserId())
+                        .name(user.getName())
+                        .phone(user.getPhone())
+                        .email(user.getEmail())
+                        .facebook(user.getFacebook())
+                        .instagram(user.getInstagram())
+                        .picUrl(user.getPicUrl())
+                        .isVerified(user.isIsVerified())
+                        .build());
+            });
+
+            return response;
+        } catch (Exception e) {
+            log.error("Exception while getting list of users: " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    @Override
     public UpdateUserResponse update(UpdateUserRequest request) {
         try {
             User user = SelectById.query(User.class, request.getId()).selectFirst(objectContext);
