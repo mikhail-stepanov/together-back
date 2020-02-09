@@ -32,6 +32,7 @@
 		<db-attribute name="is_verified" type="BOOLEAN" isMandatory="true"/>
 		<db-attribute name="modified_date" type="TIMESTAMP"/>
 		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="password" type="VARCHAR" length="255"/>
 		<db-attribute name="phone" type="VARCHAR" isMandatory="true" length="255"/>
 		<db-attribute name="pic_url" type="VARCHAR" length="255"/>
 		<db-attribute name="user_id" type="INTEGER" isMandatory="true" length="4"/>
@@ -86,6 +87,7 @@
 		<obj-attribute name="isVerified" type="boolean" db-attribute-path="is_verified"/>
 		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modified_date"/>
 		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="password" type="java.lang.String" db-attribute-path="password"/>
 		<obj-attribute name="phone" type="java.lang.String" db-attribute-path="phone"/>
 		<obj-attribute name="picUrl" type="java.lang.String" db-attribute-path="pic_url"/>
 		<obj-attribute name="userId" type="int" db-attribute-path="user_id"/>
@@ -139,9 +141,6 @@
 	<obj-relationship name="eventToPast" source="Event" target="UserPastEvent" deleteRule="Deny" db-relationship-path="eventToPast"/>
 	<obj-relationship name="eventToTicket" source="Event" target="UserTicket" deleteRule="Deny" db-relationship-path="eventToTicket"/>
 	<obj-relationship name="userToPast" source="User" target="UserPastEvent" deleteRule="Deny" db-relationship-path="userToPast"/>
-	<obj-relationship name="userToSession" source="User" target="UserSession" deleteRule="Deny" db-relationship-path="userToSession"/>
 	<obj-relationship name="userToTicket" source="User" target="UserTicket" deleteRule="Deny" db-relationship-path="userToTicket"/>
-	<obj-relationship name="pastToUser" source="UserPastEvent" target="User" deleteRule="Nullify" db-relationship-path="pastToUser"/>
 	<obj-relationship name="sessionToUser" source="UserSession" target="User" deleteRule="Nullify" db-relationship-path="sessionToUser"/>
-	<obj-relationship name="ticketToUser" source="UserTicket" target="User" deleteRule="Nullify" db-relationship-path="ticketToUser"/>
 </data-map>

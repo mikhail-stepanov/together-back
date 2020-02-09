@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SessionResponse {
 
-    boolean logged;
+    //1-first time, 2-log in, 3-log out
+    int status;
 
     String error;
 

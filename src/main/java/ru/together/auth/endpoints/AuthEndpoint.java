@@ -16,25 +16,37 @@ public class AuthEndpoint implements IAuthService {
     AuthService authService;
 
     @Override
-    @RequestMapping(value = LOGIN, method = {RequestMethod.POST})
-    public LoginResponse login(@RequestBody LoginRequest request) {
-        return authService.login(request);
+    @RequestMapping(value = AUTH_LOGIN_ID, method = {RequestMethod.POST})
+    public LoginIdResponse loginId(@RequestBody LoginIdRequest request) {
+        return authService.loginId(request);
     }
 
     @Override
-    @RequestMapping(value = SIGN_UP, method = {RequestMethod.POST})
+    @RequestMapping(value = AUTH_LOGIN_PASS, method = {RequestMethod.POST})
+    public LoginPassResponse loginPass(@RequestBody LoginPassRequest request) {
+        return authService.loginPass(request);
+    }
+
+    @Override
+    @RequestMapping(value = AUTH_SIGN_UP, method = {RequestMethod.POST})
     public SignUpResponse singUp(@RequestBody SignUpRequest request) {
         return authService.singUp(request);
     }
 
     @Override
-    @RequestMapping(value = SESSION, method = {RequestMethod.POST})
+    @RequestMapping(value = AUTH_SESSION, method = {RequestMethod.POST})
     public SessionResponse session(@RequestBody SessionRequest request) {
         return authService.session(request);
     }
 
     @Override
-    @RequestMapping(value = INFO, method = {RequestMethod.POST})
+    @RequestMapping(value = AUTH_SET_PASSWORD, method = {RequestMethod.POST})
+    public SetPasswordResponse setPassword(@RequestBody SetPasswordRequest request) {
+        return authService.setPassword(request);
+    }
+
+    @Override
+    @RequestMapping(value = AUTH_INFO, method = {RequestMethod.POST})
     public InfoResponse info(@RequestBody InfoRequest request) {
         return authService.info(request);
     }

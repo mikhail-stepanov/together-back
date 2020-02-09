@@ -4,17 +4,23 @@ import ru.together.auth.models.*;
 
 public interface IAuthService {
 
-    String LOGIN = "/v1/login";
-    String SIGN_UP = "/v1/signup";
-    String SESSION = "/v1/session";
-    String INFO = "/v1/info";
+    String AUTH_LOGIN_ID = "/v1/login/id";
+    String AUTH_LOGIN_PASS = "/v1/login/pass";
+    String AUTH_SIGN_UP = "/v1/signup";
+    String AUTH_SESSION = "/v1/session";
+    String AUTH_SET_PASSWORD = "/v1/setpass";
+    String AUTH_INFO = "/v1/info";
 
 
-    LoginResponse login(LoginRequest request);
+    LoginIdResponse loginId(LoginIdRequest request);
+
+    LoginPassResponse loginPass(LoginPassRequest request);
 
     SignUpResponse singUp(SignUpRequest request);
 
     SessionResponse session(SessionRequest request);
+
+    SetPasswordResponse setPassword(SetPasswordRequest request);
 
     InfoResponse info(InfoRequest request);
 

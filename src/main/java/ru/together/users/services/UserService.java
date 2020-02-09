@@ -167,7 +167,10 @@ public class UserService implements IUserService {
     @Override
     public UpdateUserResponse update(UpdateUserRequest request) {
         try {
-            User user = SelectById.query(User.class, request.getId()).selectFirst(objectContext);
+            User user = ObjectSelect.query(User.class)
+                    .where(User.USER_ID.eq(request.getUserId()))
+                    .selectFirst(objectContext);
+
             user.setUserId(Optional.ofNullable(request.getUserId()).orElse(user.getUserId()));
             user.setEmail(Optional.ofNullable(request.getEmail()).orElse(user.getEmail()));
             user.setName(Optional.ofNullable(request.getName()).orElse(user.getName()));

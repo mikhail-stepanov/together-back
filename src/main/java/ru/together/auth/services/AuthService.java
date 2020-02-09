@@ -6,12 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 import ru.together.auth.interfaces.IAuthService;
 import ru.together.auth.models.*;
 import ru.together.database.entities.User;
 import ru.together.database.entities.UserSession;
 import ru.together.database.services.DatabaseService;
-import ru.together.smtp.models.SendEmailRequest;
 import ru.together.smtp.services.EmailService;
 
 import javax.annotation.PostConstruct;
@@ -37,13 +37,51 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public LoginResponse login(LoginRequest request) {
+    public LoginIdResponse loginId(LoginIdRequest request) {
         if (checkUserId(request.getUserId())) {
 
             User user = ObjectSelect.query(User.class)
                     .where(User.USER_ID.eq(request.getUserId()))
                     .selectFirst(objectContext);
+
             if (user.isIsVerified()) {
+
+                UserSession userSession = ObjectSelect.query(UserSession.class)
+                        .where(UserSession.SESSION_TO_USER.eq(user))
+                        .selectFirst(objectContext);
+
+                if (userSession == null) {
+                    return LoginIdResponse.builder()
+                            .success(true)
+                            .status(1)
+                            .build();
+                } else {
+                    return LoginIdResponse.builder()
+                            .success(true)
+                            .status(2)
+                            .build();
+                }
+
+            } else return LoginIdResponse.builder()
+                    .success(false)
+                    .error("User with this id doesn't verified")
+                    .build();
+
+        } else return LoginIdResponse.builder()
+                .success(false)
+                .error("User with this id doesn't exist")
+                .build();
+    }
+
+    @Override
+    public LoginPassResponse loginPass(LoginPassRequest request) {
+        if (checkUserId(request.getUserId())) {
+
+            User user = ObjectSelect.query(User.class)
+                    .where(User.USER_ID.eq(request.getUserId()))
+                    .selectFirst(objectContext);
+
+            if (user.getPassword().equals(password(request.getPassword()))) {
 
                 UserSession session = objectContext.newObject(UserSession.class);
                 session.setCreatedDate(LocalDateTime.now());
@@ -51,15 +89,16 @@ public class AuthService implements IAuthService {
 
                 objectContext.commitChanges();
 
-                return LoginResponse.builder()
+                return LoginPassResponse.builder()
                         .success(true)
                         .build();
-            } else return LoginResponse.builder()
+
+            } else return LoginPassResponse.builder()
                     .success(false)
-                    .error("User with this id doesn't verified")
+                    .error("Wrong password")
                     .build();
 
-        } else return LoginResponse.builder()
+        } else return LoginPassResponse.builder()
                 .success(false)
                 .error("User with this id doesn't exist")
                 .build();
@@ -88,10 +127,6 @@ public class AuthService implements IAuthService {
 
             objectContext.commitChanges();
 
-//            emailService.sendSimpleMessage(SendEmailRequest.builder()
-//                    .userId(newId)
-//                    .build());
-
             return SignUpResponse.builder()
                     .success(true)
                     .build();
@@ -104,7 +139,54 @@ public class AuthService implements IAuthService {
 
     @Override
     public SessionResponse session(SessionRequest request) {
-        return null;
+        try {
+            User user = ObjectSelect.query(User.class)
+                    .where(User.USER_ID.eq(request.getUserId()))
+                    .selectFirst(objectContext);
+
+            UserSession userSession = ObjectSelect.query(UserSession.class)
+                    .where(UserSession.SESSION_TO_USER.eq(user))
+                    .selectFirst(objectContext);
+
+            if (userSession == null) {
+                return SessionResponse.builder()
+                        .status(1)
+                        .build();
+            } else {
+                return SessionResponse.builder()
+                        .status(2)
+                        .build();
+            }
+        } catch (Exception e) {
+            log.error("Error while getting session info: " + e.getLocalizedMessage());
+            return SessionResponse.builder()
+                    .error(e.getLocalizedMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public SetPasswordResponse setPassword(SetPasswordRequest request) {
+        try {
+            User user = ObjectSelect.query(User.class)
+                    .where(User.USER_ID.eq(request.getUserId()))
+                    .selectFirst(objectContext);
+
+            user.setPassword(password(request.getPassword()));
+
+            objectContext.commitChanges();
+
+            return SetPasswordResponse.builder()
+                    .success(true)
+                    .build();
+
+        } catch (Exception e) {
+            log.error("Error while setting password: " + e.getLocalizedMessage());
+            return SetPasswordResponse.builder()
+                    .success(false)
+                    .error(e.getLocalizedMessage())
+                    .build();
+        }
     }
 
     @Override
@@ -150,6 +232,11 @@ public class AuthService implements IAuthService {
             log.error(e.getMessage());
             return false;
         }
+    }
+
+    private String password(String value) {
+        String password = "tgh_" + value;
+        return DigestUtils.md5DigestAsHex(password.getBytes());
     }
 
 }
