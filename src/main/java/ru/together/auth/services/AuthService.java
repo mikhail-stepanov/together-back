@@ -174,6 +174,10 @@ public class AuthService implements IAuthService {
 
             user.setPassword(password(request.getPassword()));
 
+            UserSession session = objectContext.newObject(UserSession.class);
+            session.setCreatedDate(LocalDateTime.now());
+            session.setSessionToUser(user);
+
             objectContext.commitChanges();
 
             return SetPasswordResponse.builder()
