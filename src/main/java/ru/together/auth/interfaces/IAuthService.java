@@ -4,7 +4,7 @@ import ru.together.auth.models.*;
 
 public interface IAuthService {
 
-    String AUTH_LOGIN_ID = "/v1/login/id";
+    String AUTH_LOGIN_ID = "/v1/login";
     String AUTH_LOGIN_PASS = "/v1/login/pass";
     String AUTH_SIGN_UP = "/v1/signup";
     String AUTH_SESSION = "/v1/session";
