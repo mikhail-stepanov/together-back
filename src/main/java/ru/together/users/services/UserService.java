@@ -69,7 +69,7 @@ public class UserService implements IUserService {
                     .email(user.getEmail())
                     .facebook(user.getFacebook())
                     .instagram(user.getInstagram())
-                    .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                    .picId(0)
                     .isVerified(user.isIsVerified())
                     .build();
         } catch (Exception e) {
@@ -95,7 +95,7 @@ public class UserService implements IUserService {
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
                         .instagram(user.getInstagram())
-                        .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                        .picId(0)
                         .isVerified(user.isIsVerified())
                         .build());
             });
@@ -124,7 +124,7 @@ public class UserService implements IUserService {
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
                         .instagram(user.getInstagram())
-                        .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                        .picId(0)
                         .isVerified(user.isIsVerified())
                         .build());
             });
@@ -153,7 +153,7 @@ public class UserService implements IUserService {
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
                         .instagram(user.getInstagram())
-                        .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                        .picId(0)
                         .isVerified(user.isIsVerified())
                         .build());
             });
