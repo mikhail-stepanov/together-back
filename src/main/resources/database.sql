@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS public.user
     password      varchar(255) NULL,
     email         varchar(255) NULL,
     phone         varchar(255) NULL,
-    pic_url       varchar(255) NULL,
+    pic_id        int          NULL,
     facebook      varchar(255) NULL,
     instagram     varchar(255) NULL,
     is_verified   boolean      NULL,
@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS public.user
     deleted_date  timestamp    NULL,
     modified_date timestamp    NULL,
     CONSTRAINT user_pkey PRIMARY KEY (id)
+    CONSTRAINT user_pic_fkey FOREIGN KEY (pic_id) REFERENCES public.images (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.user_session
@@ -34,9 +35,9 @@ CREATE TABLE IF NOT EXISTS public.event
     date          varchar(255)  NOT NULL,
     place         varchar(255)  NOT NULL,
     description   varchar(1024) NULL,
-    pic_big_url   varchar(255)  NULL,
-    pic_small_url varchar(255)  NULL,
-    video         varchar(255)  NULL,
+    pic_big_id    int           NULL,
+    pic_small_id  int           NULL,
+    video         int           NULL,
     ticketcloud   varchar(255)  NULL,
     is_future     boolean       NOT NULL,
     youtube       varchar(1000) NULL,
@@ -46,6 +47,9 @@ CREATE TABLE IF NOT EXISTS public.event
     deleted_date  timestamp     NULL,
     modified_date timestamp     NULL,
     CONSTRAINT event_pkey PRIMARY KEY (id)
+    CONSTRAINT event_big_pic_fkey FOREIGN KEY (pic_big_id) REFERENCES public.images (id)
+    CONSTRAINT event_small_pic_fkey FOREIGN KEY (pic_small_id) REFERENCES public.images (id)
+    CONSTRAINT video_fkey FOREIGN KEY (video) REFERENCES public.images (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.user_past_event
@@ -73,4 +77,11 @@ CREATE TABLE IF NOT EXISTS public.user_ticket
     CONSTRAINT user_ticket_pkey PRIMARY KEY (id),
     CONSTRAINT ticket_user_fkey FOREIGN KEY (user_id) REFERENCES public.user (id),
     CONSTRAINT ticket_event_fkey FOREIGN KEY (event_id) REFERENCES public.event (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.images
+(
+    id            int       NOT NULL,
+    name          varchar(255) NULL,
+    content       byte[]       NULL,
 );

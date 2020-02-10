@@ -13,14 +13,19 @@
 		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
 		<db-attribute name="is_future" type="BOOLEAN" isMandatory="true"/>
 		<db-attribute name="modified_date" type="TIMESTAMP"/>
-		<db-attribute name="pic_big_url" type="VARCHAR" isMandatory="true" length="255"/>
-		<db-attribute name="pic_small_url" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="pic_big_id" type="INTEGER" isMandatory="true" length="255"/>
+		<db-attribute name="pic_small_id" type="INTEGER" isMandatory="true" length="255"/>
 		<db-attribute name="place" type="VARCHAR" isMandatory="true" length="255"/>
 		<db-attribute name="soundcloud" type="VARCHAR" length="1000"/>
 		<db-attribute name="ticketcloud" type="VARCHAR" length="1000"/>
 		<db-attribute name="title" type="VARCHAR" isMandatory="true" length="255"/>
-		<db-attribute name="video" type="VARCHAR" length="255"/>
+		<db-attribute name="video" type="INTEGER" length="255"/>
 		<db-attribute name="youtube" type="VARCHAR" length="1000"/>
+	</db-entity>
+	<db-entity name="images" schema="public">
+		<db-attribute name="content" type="OTHER"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="name" type="VARCHAR" length="255"/>
 	</db-entity>
 	<db-entity name="user" schema="public">
 		<db-attribute name="created_date" type="TIMESTAMP" isMandatory="true"/>
@@ -34,7 +39,7 @@
 		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="255"/>
 		<db-attribute name="password" type="VARCHAR" length="255"/>
 		<db-attribute name="phone" type="VARCHAR" isMandatory="true" length="255"/>
-		<db-attribute name="pic_url" type="VARCHAR" length="255"/>
+		<db-attribute name="pic_id" type="INTEGER" length="255"/>
 		<db-attribute name="user_id" type="INTEGER" isMandatory="true" length="4"/>
 	</db-entity>
 	<db-entity name="user_past_event" schema="public">
@@ -69,14 +74,15 @@
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
 		<obj-attribute name="isFuture" type="boolean" db-attribute-path="is_future"/>
 		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modified_date"/>
-		<obj-attribute name="picBigUrl" type="java.lang.String" db-attribute-path="pic_big_url"/>
-		<obj-attribute name="picSmallUrl" type="java.lang.String" db-attribute-path="pic_small_url"/>
 		<obj-attribute name="place" type="java.lang.String" db-attribute-path="place"/>
 		<obj-attribute name="soundcloud" type="java.lang.String" db-attribute-path="soundcloud"/>
 		<obj-attribute name="ticketcloud" type="java.lang.String" db-attribute-path="ticketcloud"/>
 		<obj-attribute name="title" type="java.lang.String" db-attribute-path="title"/>
-		<obj-attribute name="video" type="java.lang.String" db-attribute-path="video"/>
 		<obj-attribute name="youtube" type="java.lang.String" db-attribute-path="youtube"/>
+	</obj-entity>
+	<obj-entity name="Images" className="ru.together.database.entities.Images" dbEntityName="images">
+		<obj-attribute name="content" type="byte[]" db-attribute-path="content"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
 	</obj-entity>
 	<obj-entity name="User" className="ru.together.database.entities.User" dbEntityName="user">
 		<obj-attribute name="createdDate" type="java.time.LocalDateTime" db-attribute-path="created_date"/>
@@ -89,7 +95,6 @@
 		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
 		<obj-attribute name="password" type="java.lang.String" db-attribute-path="password"/>
 		<obj-attribute name="phone" type="java.lang.String" db-attribute-path="phone"/>
-		<obj-attribute name="picUrl" type="java.lang.String" db-attribute-path="pic_url"/>
 		<obj-attribute name="userId" type="int" db-attribute-path="user_id"/>
 	</obj-entity>
 	<obj-entity name="UserPastEvent" className="ru.together.database.entities.UserPastEvent" dbEntityName="user_past_event">
@@ -108,14 +113,38 @@
 		<obj-attribute name="link" type="java.lang.String" db-attribute-path="link"/>
 		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modified_date"/>
 	</obj-entity>
+	<db-relationship name="eventToBigPic" source="event" target="images" toMany="false">
+		<db-attribute-pair source="pic_big_id" target="id"/>
+	</db-relationship>
 	<db-relationship name="eventToPast" source="event" target="user_past_event" toMany="true">
 		<db-attribute-pair source="id" target="event_Id"/>
+	</db-relationship>
+	<db-relationship name="eventToSmallPic" source="event" target="images" toMany="false">
+		<db-attribute-pair source="pic_small_id" target="id"/>
 	</db-relationship>
 	<db-relationship name="eventToTicket" source="event" target="user_ticket" toMany="true">
 		<db-attribute-pair source="id" target="event_id"/>
 	</db-relationship>
+	<db-relationship name="eventToVideo" source="event" target="images" toMany="false">
+		<db-attribute-pair source="video" target="id"/>
+	</db-relationship>
+	<db-relationship name="bigPicToEvent" source="images" target="event" toMany="true">
+		<db-attribute-pair source="id" target="pic_big_id"/>
+	</db-relationship>
+	<db-relationship name="picToUser" source="images" target="user" toMany="true">
+		<db-attribute-pair source="id" target="pic_id"/>
+	</db-relationship>
+	<db-relationship name="smallPicToEvent" source="images" target="event" toMany="true">
+		<db-attribute-pair source="id" target="pic_small_id"/>
+	</db-relationship>
+	<db-relationship name="videoToEvent" source="images" target="event" toMany="true">
+		<db-attribute-pair source="id" target="video"/>
+	</db-relationship>
 	<db-relationship name="userToPast" source="user" target="user_past_event" toMany="true">
 		<db-attribute-pair source="id" target="user_id"/>
+	</db-relationship>
+	<db-relationship name="userToPic" source="user" target="images" toMany="false">
+		<db-attribute-pair source="pic_id" target="id"/>
 	</db-relationship>
 	<db-relationship name="userToSession" source="user" target="user_session" toMany="true">
 		<db-attribute-pair source="id" target="user_id"/>
@@ -138,9 +167,22 @@
 	<db-relationship name="ticketToUser" source="user_ticket" target="user" toMany="false">
 		<db-attribute-pair source="user_id" target="id"/>
 	</db-relationship>
+	<obj-relationship name="eventToBigPic" source="Event" target="Images" deleteRule="Nullify" db-relationship-path="eventToBigPic"/>
 	<obj-relationship name="eventToPast" source="Event" target="UserPastEvent" deleteRule="Deny" db-relationship-path="eventToPast"/>
+	<obj-relationship name="eventToSmallPic" source="Event" target="Images" deleteRule="Nullify" db-relationship-path="eventToSmallPic"/>
 	<obj-relationship name="eventToTicket" source="Event" target="UserTicket" deleteRule="Deny" db-relationship-path="eventToTicket"/>
+	<obj-relationship name="eventToVideo" source="Event" target="Images" deleteRule="Nullify" db-relationship-path="eventToVideo"/>
+	<obj-relationship name="bigPicToEvent" source="Images" target="Event" deleteRule="Deny" db-relationship-path="bigPicToEvent"/>
+	<obj-relationship name="picToUser" source="Images" target="User" deleteRule="Deny" db-relationship-path="picToUser"/>
+	<obj-relationship name="smallPicToEvent" source="Images" target="Event" deleteRule="Deny" db-relationship-path="smallPicToEvent"/>
+	<obj-relationship name="videoToEvent" source="Images" target="Event" deleteRule="Deny" db-relationship-path="videoToEvent"/>
 	<obj-relationship name="userToPast" source="User" target="UserPastEvent" deleteRule="Deny" db-relationship-path="userToPast"/>
+	<obj-relationship name="userToPic" source="User" target="Images" deleteRule="Nullify" db-relationship-path="userToPic"/>
+	<obj-relationship name="userToSession" source="User" target="UserSession" deleteRule="Deny" db-relationship-path="userToSession"/>
 	<obj-relationship name="userToTicket" source="User" target="UserTicket" deleteRule="Deny" db-relationship-path="userToTicket"/>
+	<obj-relationship name="pastToEvent" source="UserPastEvent" target="Event" deleteRule="Nullify" db-relationship-path="pastToEvent"/>
+	<obj-relationship name="pastToUser" source="UserPastEvent" target="User" deleteRule="Nullify" db-relationship-path="pastToUser"/>
 	<obj-relationship name="sessionToUser" source="UserSession" target="User" deleteRule="Nullify" db-relationship-path="sessionToUser"/>
+	<obj-relationship name="ticketToEvent" source="UserTicket" target="Event" deleteRule="Nullify" db-relationship-path="ticketToEvent"/>
+	<obj-relationship name="ticketToUser" source="UserTicket" target="User" deleteRule="Nullify" db-relationship-path="ticketToUser"/>
 </data-map>

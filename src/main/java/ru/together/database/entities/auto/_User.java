@@ -6,7 +6,9 @@ import java.util.List;
 import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.exp.Property;
 
+import ru.together.database.entities.Images;
 import ru.together.database.entities.UserPastEvent;
+import ru.together.database.entities.UserSession;
 import ru.together.database.entities.UserTicket;
 
 /**
@@ -31,9 +33,10 @@ public abstract class _User extends CayenneDataObject {
     public static final Property<String> NAME = Property.create("name", String.class);
     public static final Property<String> PASSWORD = Property.create("password", String.class);
     public static final Property<String> PHONE = Property.create("phone", String.class);
-    public static final Property<String> PIC_URL = Property.create("picUrl", String.class);
     public static final Property<Integer> USER_ID = Property.create("userId", Integer.class);
     public static final Property<List<UserPastEvent>> USER_TO_PAST = Property.create("userToPast", List.class);
+    public static final Property<Images> USER_TO_PIC = Property.create("userToPic", Images.class);
+    public static final Property<List<UserSession>> USER_TO_SESSION = Property.create("userToSession", List.class);
     public static final Property<List<UserTicket>> USER_TO_TICKET = Property.create("userToTicket", List.class);
 
     public void setCreatedDate(LocalDateTime createdDate) {
@@ -107,13 +110,6 @@ public abstract class _User extends CayenneDataObject {
         return (String)readProperty("phone");
     }
 
-    public void setPicUrl(String picUrl) {
-        writeProperty("picUrl", picUrl);
-    }
-    public String getPicUrl() {
-        return (String)readProperty("picUrl");
-    }
-
     public void setUserId(int userId) {
         writeProperty("userId", userId);
     }
@@ -131,6 +127,27 @@ public abstract class _User extends CayenneDataObject {
     @SuppressWarnings("unchecked")
     public List<UserPastEvent> getUserToPast() {
         return (List<UserPastEvent>)readProperty("userToPast");
+    }
+
+
+    public void setUserToPic(Images userToPic) {
+        setToOneTarget("userToPic", userToPic, true);
+    }
+
+    public Images getUserToPic() {
+        return (Images)readProperty("userToPic");
+    }
+
+
+    public void addToUserToSession(UserSession obj) {
+        addToManyTarget("userToSession", obj, true);
+    }
+    public void removeFromUserToSession(UserSession obj) {
+        removeToManyTarget("userToSession", obj, true);
+    }
+    @SuppressWarnings("unchecked")
+    public List<UserSession> getUserToSession() {
+        return (List<UserSession>)readProperty("userToSession");
     }
 
 
