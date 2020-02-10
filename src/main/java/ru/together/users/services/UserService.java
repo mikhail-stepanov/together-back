@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.together.database.entities.Images;
 import ru.together.database.entities.User;
 import ru.together.database.services.DatabaseService;
 import ru.together.smtp.models.SendEmailRequest;
@@ -68,7 +69,7 @@ public class UserService implements IUserService {
                     .email(user.getEmail())
                     .facebook(user.getFacebook())
                     .instagram(user.getInstagram())
-                    .picUrl(user.getPicUrl())
+                    .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                     .isVerified(user.isIsVerified())
                     .build();
         } catch (Exception e) {
@@ -94,7 +95,7 @@ public class UserService implements IUserService {
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
                         .instagram(user.getInstagram())
-                        .picUrl(user.getPicUrl())
+                        .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                         .isVerified(user.isIsVerified())
                         .build());
             });
@@ -123,7 +124,7 @@ public class UserService implements IUserService {
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
                         .instagram(user.getInstagram())
-                        .picUrl(user.getPicUrl())
+                        .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                         .isVerified(user.isIsVerified())
                         .build());
             });
@@ -152,7 +153,7 @@ public class UserService implements IUserService {
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
                         .instagram(user.getInstagram())
-                        .picUrl(user.getPicUrl())
+                        .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                         .isVerified(user.isIsVerified())
                         .build());
             });
@@ -171,13 +172,17 @@ public class UserService implements IUserService {
                     .where(User.USER_ID.eq(request.getUserId()))
                     .selectFirst(objectContext);
 
+            if (request.getPicId() != null) {
+                Images video = SelectById.query(Images.class, request.getPicId()).selectFirst(objectContext);
+                user.setUserToPic(video);
+            }
+
             user.setUserId(Optional.ofNullable(request.getUserId()).orElse(user.getUserId()));
             user.setEmail(Optional.ofNullable(request.getEmail()).orElse(user.getEmail()));
             user.setName(Optional.ofNullable(request.getName()).orElse(user.getName()));
             user.setPhone(Optional.ofNullable(request.getPhone()).orElse(user.getPhone()));
             user.setFacebook(Optional.ofNullable(request.getFacebook()).orElse(user.getFacebook()));
             user.setInstagram(Optional.ofNullable(request.getInstagram()).orElse(user.getInstagram()));
-            user.setPicUrl(Optional.ofNullable(request.getPicUrl()).orElse(user.getPicUrl()));
             user.setIsVerified(Optional.ofNullable(request.getIsVerified()).orElse(user.isIsVerified()));
 
             objectContext.commitChanges();
@@ -191,7 +196,7 @@ public class UserService implements IUserService {
                     .phone(user.getPhone())
                     .facebook(user.getFacebook())
                     .instagram(user.getInstagram())
-                    .picUrl(user.getPicUrl())
+                    .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                     .build();
 
         } catch (Exception e) {
@@ -224,7 +229,7 @@ public class UserService implements IUserService {
                     .phone(user.getPhone())
                     .facebook(user.getFacebook())
                     .instagram(user.getInstagram())
-                    .picUrl(user.getPicUrl())
+                    .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                     .build();
 
         } catch (Exception e) {

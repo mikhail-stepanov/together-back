@@ -25,7 +25,7 @@ public class UserModel {
 
     String instagram;
 
-    String picUrl;
+    Integer picId;
 
     boolean isVerified;
 

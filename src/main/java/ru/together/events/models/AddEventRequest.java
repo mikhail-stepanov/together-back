@@ -21,11 +21,11 @@ public class AddEventRequest {
 
     String ticketcloud;
 
-    String picBigUrl;
+    Integer picBigId;
 
-    String picSmallUrl;
+    Integer picSmallId;
 
-    String video;
+    Integer video;
 
     String description;
 

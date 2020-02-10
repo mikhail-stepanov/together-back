@@ -25,7 +25,7 @@ public class GetUserResponse {
 
     String instagram;
 
-    String picUrl;
+    Integer picId;
 
     boolean isVerified;
 

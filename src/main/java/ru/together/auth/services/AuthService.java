@@ -205,6 +205,7 @@ public class AuthService implements IAuthService {
                     .success(true)
                     .name(user.getName())
                     .userId(user.getUserId())
+                    .pic_id((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                     .build();
 
         } else return InfoResponse.builder()

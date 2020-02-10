@@ -15,7 +15,7 @@ public class InfoResponse {
 
     String name;
 
-    String pic_url;
+    Integer pic_id;
 
     boolean success;
 

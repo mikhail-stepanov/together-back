@@ -23,7 +23,7 @@ public class UpdateUserRequest {
 
     String facebook;
 
-    String picUrl;
+    Integer picId;
 
     String instagram;
 

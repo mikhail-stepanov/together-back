@@ -23,11 +23,11 @@ public class GetEventResponse {
 
     String ticketcloud;
 
-    String picBigUrl;
+    Integer picBigId;
 
-    String picSmallUrl;
+    Integer picSmallId;
 
-    String video;
+    Integer video;
 
     String description;
 
