@@ -44,7 +44,7 @@ public class AuthService implements IAuthService {
                     .where(User.USER_ID.eq(request.getUserId()))
                     .selectFirst(objectContext);
 
-            if (user.isIsVerified()) {
+            if (user.isIsVerified() && !user.isIsBlocked()) {
 
                 UserSession userSession = ObjectSelect.query(UserSession.class)
                         .where(UserSession.SESSION_TO_USER.eq(user))
@@ -124,6 +124,7 @@ public class AuthService implements IAuthService {
             user.setInstagram(request.getInstagram());
             user.setFacebook(request.getFacebook());
             user.setIsVerified(false);
+            user.setIsBlocked(false);
 
             objectContext.commitChanges();
 

@@ -10,6 +10,9 @@ public interface IUserService {
     String USER_LIST = "/v1/user/list";
     String USER_LIST_VERIFIED = "/v1/user/list/verified";
     String USER_LIST_UNVERIFIED = "/v1/user/list/unverified";
+    String USER_LIST_BLOCKED = "/v1/user/list/blocked";
+    String USER_BLOCK = "/v1/user/block";
+    String USER_UNBLOCK = "/v1/user/unblock";
     String USER_UPDATE = "/v1/user/update";
     String USER_REMOVE = "/v1/user/remove";
     String USER_VERIFY = "/v1/user/verify";
@@ -23,6 +26,12 @@ public interface IUserService {
     List<UserModel> listVerified();
 
     List<UserModel> listUnverified();
+
+    List<UserModel> listBlocked();
+
+    BlockUserResponse block(BlockUserRequest request);
+
+    BlockUserResponse unblock(BlockUserRequest request);
 
     UpdateUserResponse update(UpdateUserRequest request);
 

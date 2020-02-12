@@ -69,7 +69,7 @@ public class UserService implements IUserService {
                     .email(user.getEmail())
                     .facebook(user.getFacebook())
                     .instagram(user.getInstagram())
-                    .picId(0)
+                    .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                     .isVerified(user.isIsVerified())
                     .build();
         } catch (Exception e) {
@@ -95,7 +95,7 @@ public class UserService implements IUserService {
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
                         .instagram(user.getInstagram())
-                        .picId(0)
+                        .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                         .isVerified(user.isIsVerified())
                         .build());
             });
@@ -124,7 +124,7 @@ public class UserService implements IUserService {
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
                         .instagram(user.getInstagram())
-                        .picId(0)
+                        .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                         .isVerified(user.isIsVerified())
                         .build());
             });
@@ -153,7 +153,7 @@ public class UserService implements IUserService {
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
                         .instagram(user.getInstagram())
-                        .picId(0)
+                        .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                         .isVerified(user.isIsVerified())
                         .build());
             });
@@ -162,6 +162,81 @@ public class UserService implements IUserService {
         } catch (Exception e) {
             log.error("Exception while getting list of users: " + e.getLocalizedMessage());
             return null;
+        }
+    }
+
+    @Override
+    public List<UserModel> listBlocked() {
+        try {
+            List<UserModel> response = new ArrayList<>();
+            List<User> users = ObjectSelect.query(User.class).
+                    where(User.DELETED_DATE.isNull()).and(User.IS_BLOCKED.isTrue())
+                    .select(objectContext);
+
+            users.forEach(user -> {
+                response.add(UserModel.builder()
+                        .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
+                        .userId(user.getUserId())
+                        .name(user.getName())
+                        .phone(user.getPhone())
+                        .email(user.getEmail())
+                        .facebook(user.getFacebook())
+                        .instagram(user.getInstagram())
+                        .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                        .isVerified(user.isIsVerified())
+                        .build());
+            });
+
+            return response;
+        } catch (Exception e) {
+            log.error("Exception while getting list of users: " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public BlockUserResponse block(BlockUserRequest request) {
+        try {
+            User user = ObjectSelect.query(User.class)
+                    .where(User.USER_ID.eq(request.getUserId()))
+                    .selectFirst(objectContext);
+
+            user.setIsBlocked(true);
+
+            objectContext.commitChanges();
+
+            return BlockUserResponse.builder()
+                    .success(true)
+                    .build();
+
+        } catch (Exception e) {
+            log.error("Exception while blocking user: " + e.getLocalizedMessage());
+            return BlockUserResponse.builder()
+                    .success(false)
+                    .build();
+        }
+    }
+
+    @Override
+    public BlockUserResponse unblock(BlockUserRequest request) {
+        try {
+            User user = ObjectSelect.query(User.class)
+                    .where(User.USER_ID.eq(request.getUserId()))
+                    .selectFirst(objectContext);
+
+            user.setIsBlocked(false);
+
+            objectContext.commitChanges();
+
+            return BlockUserResponse.builder()
+                    .success(true)
+                    .build();
+
+        } catch (Exception e) {
+            log.error("Exception while blocking user: " + e.getLocalizedMessage());
+            return BlockUserResponse.builder()
+                    .success(false)
+                    .build();
         }
     }
 
@@ -196,7 +271,7 @@ public class UserService implements IUserService {
                     .phone(user.getPhone())
                     .facebook(user.getFacebook())
                     .instagram(user.getInstagram())
-                    .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                    .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                     .build();
 
         } catch (Exception e) {
@@ -229,7 +304,7 @@ public class UserService implements IUserService {
                     .phone(user.getPhone())
                     .facebook(user.getFacebook())
                     .instagram(user.getInstagram())
-                    .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                    .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                     .build();
 
         } catch (Exception e) {

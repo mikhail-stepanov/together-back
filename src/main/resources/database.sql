@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS public.images
+(
+    id      int          NOT NULL,
+    name    varchar(255) NULL,
+    content text         NULL,
+    CONSTRAINT images_pkey PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS public.user
 (
     id            int          NOT NULL,
@@ -10,10 +18,11 @@ CREATE TABLE IF NOT EXISTS public.user
     facebook      varchar(255) NULL,
     instagram     varchar(255) NULL,
     is_verified   boolean      NULL,
+    is_blocked    boolean      NULL,
     created_date  timestamp    NULL,
     deleted_date  timestamp    NULL,
     modified_date timestamp    NULL,
-    CONSTRAINT user_pkey PRIMARY KEY (id)
+    CONSTRAINT user_pkey PRIMARY KEY (id),
     CONSTRAINT user_pic_fkey FOREIGN KEY (pic_id) REFERENCES public.images (id)
 );
 
@@ -46,9 +55,9 @@ CREATE TABLE IF NOT EXISTS public.event
     created_date  timestamp     NULL,
     deleted_date  timestamp     NULL,
     modified_date timestamp     NULL,
-    CONSTRAINT event_pkey PRIMARY KEY (id)
-    CONSTRAINT event_big_pic_fkey FOREIGN KEY (pic_big_id) REFERENCES public.images (id)
-    CONSTRAINT event_small_pic_fkey FOREIGN KEY (pic_small_id) REFERENCES public.images (id)
+    CONSTRAINT event_pkey PRIMARY KEY (id),
+    CONSTRAINT event_big_pic_fkey FOREIGN KEY (pic_big_id) REFERENCES public.images (id),
+    CONSTRAINT event_small_pic_fkey FOREIGN KEY (pic_small_id) REFERENCES public.images (id),
     CONSTRAINT video_fkey FOREIGN KEY (video) REFERENCES public.images (id)
 );
 
@@ -67,21 +76,14 @@ CREATE TABLE IF NOT EXISTS public.user_past_event
 
 CREATE TABLE IF NOT EXISTS public.user_ticket
 (
-    id            int       NOT NULL,
-    user_id       int       NOT NULL,
-    event_id      int       NOT NULL,
+    id            int          NOT NULL,
+    user_id       int          NOT NULL,
+    event_id      int          NOT NULL,
     link          varchar(255) NULL,
-    created_date  timestamp NULL,
-    deleted_date  timestamp NULL,
-    modified_date timestamp NULL,
+    created_date  timestamp    NULL,
+    deleted_date  timestamp    NULL,
+    modified_date timestamp    NULL,
     CONSTRAINT user_ticket_pkey PRIMARY KEY (id),
     CONSTRAINT ticket_user_fkey FOREIGN KEY (user_id) REFERENCES public.user (id),
     CONSTRAINT ticket_event_fkey FOREIGN KEY (event_id) REFERENCES public.event (id)
-);
-
-CREATE TABLE IF NOT EXISTS public.images
-(
-    id            int       NOT NULL,
-    name          varchar(255) NULL,
-    content       byte[]       NULL,
 );

@@ -29,4 +29,6 @@ public class UserModel {
 
     boolean isVerified;
 
+    boolean isBlocked;
+
 }

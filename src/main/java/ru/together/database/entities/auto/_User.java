@@ -28,6 +28,7 @@ public abstract class _User extends CayenneDataObject {
     public static final Property<String> EMAIL = Property.create("email", String.class);
     public static final Property<String> FACEBOOK = Property.create("facebook", String.class);
     public static final Property<String> INSTAGRAM = Property.create("instagram", String.class);
+    public static final Property<Boolean> IS_BLOCKED = Property.create("isBlocked", Boolean.class);
     public static final Property<Boolean> IS_VERIFIED = Property.create("isVerified", Boolean.class);
     public static final Property<LocalDateTime> MODIFIED_DATE = Property.create("modifiedDate", LocalDateTime.class);
     public static final Property<String> NAME = Property.create("name", String.class);
@@ -72,6 +73,14 @@ public abstract class _User extends CayenneDataObject {
     }
     public String getInstagram() {
         return (String)readProperty("instagram");
+    }
+
+    public void setIsBlocked(boolean isBlocked) {
+        writeProperty("isBlocked", isBlocked);
+    }
+	public boolean isIsBlocked() {
+        Boolean value = (Boolean)readProperty("isBlocked");
+        return (value != null) ? value.booleanValue() : false;
     }
 
     public void setIsVerified(boolean isVerified) {

@@ -28,6 +28,7 @@
 		<db-attribute name="name" type="VARCHAR" length="255"/>
 	</db-entity>
 	<db-entity name="user" schema="public">
+		<db-attribute name="Is_blocked" type="BOOLEAN" isMandatory="true"/>
 		<db-attribute name="created_date" type="TIMESTAMP" isMandatory="true"/>
 		<db-attribute name="deleted_date" type="TIMESTAMP"/>
 		<db-attribute name="email" type="VARCHAR" isMandatory="true" length="255"/>
@@ -90,6 +91,7 @@
 		<obj-attribute name="email" type="java.lang.String" db-attribute-path="email"/>
 		<obj-attribute name="facebook" type="java.lang.String" db-attribute-path="facebook"/>
 		<obj-attribute name="instagram" type="java.lang.String" db-attribute-path="instagram"/>
+		<obj-attribute name="isBlocked" type="boolean" db-attribute-path="Is_blocked"/>
 		<obj-attribute name="isVerified" type="boolean" db-attribute-path="is_verified"/>
 		<obj-attribute name="modifiedDate" type="java.time.LocalDateTime" db-attribute-path="modified_date"/>
 		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>

@@ -44,6 +44,27 @@ public class UserEndpoint implements IUserService {
 
     @Override
     @CrossOrigin
+    @RequestMapping(value = USER_LIST_BLOCKED, method = {RequestMethod.GET})
+    public List<UserModel> listBlocked() {
+        return userService.listBlocked();
+    }
+
+    @Override
+    @CrossOrigin
+    @RequestMapping(value = USER_BLOCK, method = {RequestMethod.POST})
+    public BlockUserResponse block(@RequestBody BlockUserRequest request) {
+        return userService.block(request);
+    }
+
+    @Override
+    @CrossOrigin
+    @RequestMapping(value = USER_UNBLOCK, method = {RequestMethod.POST})
+    public BlockUserResponse unblock(@RequestBody BlockUserRequest request) {
+        return userService.unblock(request);
+    }
+
+    @Override
+    @CrossOrigin
     @RequestMapping(value = USER_UPDATE, method = {RequestMethod.POST})
     public UpdateUserResponse update(@RequestBody UpdateUserRequest request) {
         return userService.update(request);
