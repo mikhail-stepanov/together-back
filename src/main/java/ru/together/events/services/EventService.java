@@ -203,7 +203,7 @@ public class EventService implements IEventService {
     @Override
     public UpdateEventResponse update(UpdateEventRequest request) {
         try {
-            Event event = SelectById.query(Event.class, request.getTitle()).selectFirst(objectContext);
+            Event event = SelectById.query(Event.class, request.getId()).selectFirst(objectContext);
 
             if (request.getPicBigId() != null) {
                 Images bigPic = SelectById.query(Images.class, request.getPicBigId()).selectFirst(objectContext);
@@ -254,7 +254,7 @@ public class EventService implements IEventService {
     @Override
     public RemoveEventResponse remove(RemoveEventRequest request) {
         try {
-            Event event = SelectById.query(Event.class, request.getTitle()).selectFirst(objectContext);
+            Event event = SelectById.query(Event.class, request.getId()).selectFirst(objectContext);
 
             event.setDeletedDate(LocalDateTime.now());
 
