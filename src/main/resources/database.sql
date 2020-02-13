@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS public.images
     id      int          NOT NULL,
     name    varchar(255) NULL,
     content text         NULL,
+    url     varchar(1000) NULL,
     CONSTRAINT images_pkey PRIMARY KEY (id)
 );
 

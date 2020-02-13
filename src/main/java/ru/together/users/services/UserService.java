@@ -95,7 +95,7 @@ public class UserService implements IUserService {
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
                         .instagram(user.getInstagram())
-                        .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                        .picId(1)
                         .isVerified(user.isIsVerified())
                         .build());
             });
