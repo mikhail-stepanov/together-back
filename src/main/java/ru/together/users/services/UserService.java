@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.together.common.exceptions.CommonException;
+import ru.together.common.exceptions.ObjectNotFoundException;
 import ru.together.database.entities.Images;
 import ru.together.database.entities.User;
 import ru.together.database.services.DatabaseService;
@@ -40,7 +42,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public GetUserResponse get(GetUserRequest request) {
+    public GetUserResponse get(GetUserRequest request) throws CommonException {
         try {
             User user = null;
             //by id
@@ -73,13 +75,12 @@ public class UserService implements IUserService {
                     .isVerified(user.isIsVerified())
                     .build();
         } catch (Exception e) {
-            log.error("Exception while getting user: " + e.getLocalizedMessage());
-            return null;
+            throw new ObjectNotFoundException(Integer.toString(request.getId()), "Error while getting user");
         }
     }
 
     @Override
-    public List<UserModel> list() {
+    public List<UserModel> list() throws CommonException {
         try {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
@@ -95,20 +96,19 @@ public class UserService implements IUserService {
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
                         .instagram(user.getInstagram())
-                        .picId(1)
+                        .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                         .isVerified(user.isIsVerified())
                         .build());
             });
 
             return response;
         } catch (Exception e) {
-            log.error("Exception while getting list of users: " + e.getLocalizedMessage());
-            return null;
+            throw new ObjectNotFoundException(e.getMessage(), "Error while getting list of users");
         }
     }
 
     @Override
-    public List<UserModel> listVerified() {
+    public List<UserModel> listVerified() throws CommonException {
         try {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
@@ -131,13 +131,12 @@ public class UserService implements IUserService {
 
             return response;
         } catch (Exception e) {
-            log.error("Exception while getting list of users: " + e.getLocalizedMessage());
-            return null;
+            throw new ObjectNotFoundException(e.getMessage(), "Error while getting list of users");
         }
     }
 
     @Override
-    public List<UserModel> listUnverified() {
+    public List<UserModel> listUnverified() throws CommonException {
         try {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
@@ -160,13 +159,12 @@ public class UserService implements IUserService {
 
             return response;
         } catch (Exception e) {
-            log.error("Exception while getting list of users: " + e.getLocalizedMessage());
-            return null;
+            throw new ObjectNotFoundException(e.getMessage(), "Error while getting list of users");
         }
     }
 
     @Override
-    public List<UserModel> listBlocked() {
+    public List<UserModel> listBlocked() throws CommonException {
         try {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
@@ -189,13 +187,12 @@ public class UserService implements IUserService {
 
             return response;
         } catch (Exception e) {
-            log.error("Exception while getting list of users: " + e.getLocalizedMessage());
-            return null;
+            throw new ObjectNotFoundException(e.getMessage(), "Error while getting list of users");
         }
     }
 
     @Override
-    public BlockUserResponse block(BlockUserRequest request) {
+    public BlockUserResponse block(BlockUserRequest request) throws CommonException {
         try {
             User user = ObjectSelect.query(User.class)
                     .where(User.USER_ID.eq(request.getUserId()))
@@ -210,15 +207,12 @@ public class UserService implements IUserService {
                     .build();
 
         } catch (Exception e) {
-            log.error("Exception while blocking user: " + e.getLocalizedMessage());
-            return BlockUserResponse.builder()
-                    .success(false)
-                    .build();
+            throw new CommonException(e.getMessage(), "Error while blocking user");
         }
     }
 
     @Override
-    public BlockUserResponse unblock(BlockUserRequest request) {
+    public BlockUserResponse unblock(BlockUserRequest request) throws CommonException {
         try {
             User user = ObjectSelect.query(User.class)
                     .where(User.USER_ID.eq(request.getUserId()))
@@ -233,15 +227,12 @@ public class UserService implements IUserService {
                     .build();
 
         } catch (Exception e) {
-            log.error("Exception while blocking user: " + e.getLocalizedMessage());
-            return BlockUserResponse.builder()
-                    .success(false)
-                    .build();
+            throw new CommonException(e.getMessage(), "Error while unblocking user");
         }
     }
 
     @Override
-    public UpdateUserResponse update(UpdateUserRequest request) {
+    public UpdateUserResponse update(UpdateUserRequest request) throws CommonException {
         try {
             User user = ObjectSelect.query(User.class)
                     .where(User.USER_ID.eq(request.getUserId()))
@@ -275,13 +266,12 @@ public class UserService implements IUserService {
                     .build();
 
         } catch (Exception e) {
-            log.error("Exception while updating user: " + e.getMessage());
-            return null;
+            throw new CommonException(e.getMessage(), "Error while updating user");
         }
     }
 
     @Override
-    public UpdateUserResponse verify(UpdateUserRequest request) {
+    public UpdateUserResponse verify(UpdateUserRequest request) throws CommonException {
         try {
             User user = ObjectSelect.query(User.class)
                     .where(User.USER_ID.eq(request.getUserId()))
@@ -308,13 +298,12 @@ public class UserService implements IUserService {
                     .build();
 
         } catch (Exception e) {
-            log.error("Exception while resending email: " + e.getLocalizedMessage());
-            return null;
+            throw new CommonException(e.getMessage(), "Error while verifying user");
         }
     }
 
     @Override
-    public ResendEmailResponse resendEmail(ResendEmailRequest request) {
+    public ResendEmailResponse resendEmail(ResendEmailRequest request) throws CommonException {
         try {
             emailService.sendSimpleMessage(SendEmailRequest.builder()
                     .userId(request.getUserId())
@@ -325,15 +314,12 @@ public class UserService implements IUserService {
                     .build();
 
         } catch (Exception e) {
-            log.error("Exception while resending email: " + e.getLocalizedMessage());
-            return ResendEmailResponse.builder()
-                    .success(false)
-                    .build();
+            throw new CommonException(e.getMessage(), "Error while resending email");
         }
     }
 
     @Override
-    public RemoveUserResponse remove(RemoveUserRequest request) {
+    public RemoveUserResponse remove(RemoveUserRequest request) throws CommonException {
         try {
             User user = ObjectSelect.query(User.class)
                     .where(User.USER_ID.eq(request.getUserId()))
@@ -347,10 +333,7 @@ public class UserService implements IUserService {
                     .success(true)
                     .build();
         } catch (Exception e) {
-            log.error("Exception while removing user: " + e.getMessage());
-            return RemoveUserResponse.builder()
-                    .success(false)
-                    .build();
+            throw new CommonException(e.getMessage(), "Error while removing user");
         }
     }
 }

@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.together.common.exceptions.CommonException;
+import ru.together.common.exceptions.ObjectNotFoundException;
 import ru.together.database.entities.Event;
 import ru.together.database.entities.Images;
 import ru.together.database.services.DatabaseService;
@@ -36,7 +38,7 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public AddEventResponse add(AddEventRequest request) {
+    public AddEventResponse add(AddEventRequest request) throws CommonException {
         try {
             Event event = objectContext.newObject(Event.class);
             event.setCreatedDate(LocalDateTime.now());
@@ -46,22 +48,31 @@ public class EventService implements IEventService {
             event.setDescription(request.getDescription());
             event.setTicketcloud(request.getTicketcloud());
             event.setIsFuture(true);
-//            event.setYoutube(request.getYoutube());
-//            event.setSoundcloud(request.getSoundcloud());
-//            event.setCloud(request.getCloud());
+
+            Images bigPic;
+            Images smallPic;
+            Images video;
 
             if (request.getPicBigId() != null) {
-                Images bigPic = SelectById.query(Images.class, request.getPicBigId()).selectFirst(objectContext);
-                event.setEventToBigPic(bigPic);
+                bigPic = SelectById.query(Images.class, request.getPicBigId()).selectFirst(objectContext);
+            } else {
+                bigPic = SelectById.query(Images.class, 2).selectFirst(objectContext);
             }
+            event.setEventToBigPic(bigPic);
+
             if (request.getPicBigId() != null) {
-                Images smallPic = SelectById.query(Images.class, request.getPicSmallId()).selectFirst(objectContext);
-                event.setEventToSmallPic(smallPic);
+                smallPic = SelectById.query(Images.class, request.getPicSmallId()).selectFirst(objectContext);
+            } else {
+                smallPic = SelectById.query(Images.class, 2).selectFirst(objectContext);
             }
+            event.setEventToSmallPic(smallPic);
+
             if (request.getPicBigId() != null) {
-                Images video = SelectById.query(Images.class, request.getVideo()).selectFirst(objectContext);
-                event.setEventToVideo(video);
+                video = SelectById.query(Images.class, request.getVideo()).selectFirst(objectContext);
+            } else {
+                video = SelectById.query(Images.class, 2).selectFirst(objectContext);
             }
+            event.setEventToVideo(video);
 
             objectContext.commitChanges();
 
@@ -69,15 +80,12 @@ public class EventService implements IEventService {
                     .success(true)
                     .build();
         } catch (Exception e) {
-            log.error("Exception while adding event: " + e.getLocalizedMessage());
-            return AddEventResponse.builder()
-                    .success(false)
-                    .build();
+            throw new CommonException(e.getMessage(), "Error while adding event");
         }
     }
 
     @Override
-    public GetEventResponse get(GetEventRequest request) {
+    public GetEventResponse get(GetEventRequest request) throws CommonException {
         try {
             Event event = SelectById.query(Event.class, request.getId()).selectFirst(objectContext);
 
@@ -96,13 +104,12 @@ public class EventService implements IEventService {
                     .cloud(event.getCloud())
                     .build();
         } catch (Exception e) {
-            log.error("Exception while getting event: " + e.getLocalizedMessage());
-            return null;
+            throw new ObjectNotFoundException(Integer.toString(request.getId()), "Error while getting event");
         }
     }
 
     @Override
-    public List<EventModel> listAll() {
+    public List<EventModel> listAll() throws CommonException {
         try {
             List<EventModel> response = new ArrayList<>();
             List<Event> events = ObjectSelect.query(Event.class).
@@ -129,13 +136,12 @@ public class EventService implements IEventService {
 
             return response;
         } catch (Exception e) {
-            log.error("Exception while getting list of events: " + e.getLocalizedMessage());
-            return null;
+            throw new ObjectNotFoundException(e.getMessage(), "Error while getting list of event");
         }
     }
 
     @Override
-    public List<EventModel> listFuture() {
+    public List<EventModel> listFuture() throws CommonException {
         try {
             List<EventModel> response = new ArrayList<>();
             List<Event> events = ObjectSelect.query(Event.class).
@@ -162,13 +168,12 @@ public class EventService implements IEventService {
 
             return response;
         } catch (Exception e) {
-            log.error("Exception while getting list of future events: " + e.getLocalizedMessage());
-            return null;
+            throw new ObjectNotFoundException(e.getMessage(), "Error while getting list of event");
         }
     }
 
     @Override
-    public List<EventModel> listPast() {
+    public List<EventModel> listPast() throws CommonException {
         try {
             List<EventModel> response = new ArrayList<>();
             List<Event> events = ObjectSelect.query(Event.class).
@@ -195,13 +200,12 @@ public class EventService implements IEventService {
 
             return response;
         } catch (Exception e) {
-            log.error("Exception while getting list of past events: " + e.getLocalizedMessage());
-            return null;
+            throw new ObjectNotFoundException(e.getMessage(), "Error while getting list of event");
         }
     }
 
     @Override
-    public UpdateEventResponse update(UpdateEventRequest request) {
+    public UpdateEventResponse update(UpdateEventRequest request) throws CommonException {
         try {
             Event event = SelectById.query(Event.class, request.getId()).selectFirst(objectContext);
 
@@ -235,9 +239,9 @@ public class EventService implements IEventService {
                     .date(event.getDate())
                     .place(event.getPlace())
                     .description(event.getDescription())
-                    .picBigId((int) event.getEventToBigPic().getObjectId().getIdSnapshot().get("id"))
-                    .picSmallId((int) event.getEventToSmallPic().getObjectId().getIdSnapshot().get("id"))
-                    .video((int) event.getEventToVideo().getObjectId().getIdSnapshot().get("id"))
+                    .picBigId((Integer) event.getEventToBigPic().getObjectId().getIdSnapshot().get("id"))
+                    .picSmallId((Integer) event.getEventToSmallPic().getObjectId().getIdSnapshot().get("id"))
+                    .video((Integer) event.getEventToVideo().getObjectId().getIdSnapshot().get("id"))
                     .ticketcloud(event.getTicketcloud())
                     .isFuture(event.isIsFuture())
                     .youtube(event.getYoutube())
@@ -246,13 +250,12 @@ public class EventService implements IEventService {
                     .build();
 
         } catch (Exception e) {
-            log.error("Exception while updating event: " + e.getMessage());
-            return null;
+            throw new CommonException(Integer.toString(request.getId()), "Error while updating event");
         }
     }
 
     @Override
-    public RemoveEventResponse remove(RemoveEventRequest request) {
+    public RemoveEventResponse remove(RemoveEventRequest request) throws CommonException {
         try {
             Event event = SelectById.query(Event.class, request.getId()).selectFirst(objectContext);
 
@@ -264,10 +267,16 @@ public class EventService implements IEventService {
                     .success(true)
                     .build();
         } catch (Exception e) {
-            log.error("Exception while removing event: " + e.getMessage());
-            return RemoveEventResponse.builder()
-                    .success(false)
-                    .build();
+            throw new CommonException(Integer.toString(request.getId()), "Error while removing event");
         }
+    }
+
+    private Images addImagesByUrl(String url) {
+        Images images = objectContext.newObject(Images.class);
+        images.setUrl(url);
+
+        objectContext.commitChanges();
+
+        return images;
     }
 }

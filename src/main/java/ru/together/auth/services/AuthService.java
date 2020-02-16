@@ -2,6 +2,7 @@ package ru.together.auth.services;
 
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.query.ObjectSelect;
+import org.apache.cayenne.query.SelectById;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import ru.together.auth.interfaces.IAuthService;
 import ru.together.auth.models.*;
+import ru.together.common.exceptions.BadRequestException;
+import ru.together.common.exceptions.CommonException;
+import ru.together.common.exceptions.ObjectNotFoundException;
+import ru.together.database.entities.Images;
 import ru.together.database.entities.User;
 import ru.together.database.entities.UserSession;
 import ru.together.database.services.DatabaseService;
@@ -37,7 +42,7 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public LoginIdResponse loginId(LoginIdRequest request) {
+    public LoginIdResponse loginId(LoginIdRequest request) throws CommonException {
         if (checkUserId(request.getUserId())) {
 
             User user = ObjectSelect.query(User.class)
@@ -62,19 +67,14 @@ public class AuthService implements IAuthService {
                             .build();
                 }
 
-            } else return LoginIdResponse.builder()
-                    .success(false)
-                    .error("User with this id doesn't verified")
-                    .build();
-
-        } else return LoginIdResponse.builder()
-                .success(false)
-                .error("User with this id doesn't exist")
-                .build();
+            } else
+                throw new BadRequestException(Integer.toString(request.getUserId()), "Unverified");
+        } else
+            throw new ObjectNotFoundException(User.class.toString(), Integer.toString(request.getUserId()));
     }
 
     @Override
-    public LoginPassResponse loginPass(LoginPassRequest request) {
+    public LoginPassResponse loginPass(LoginPassRequest request) throws CommonException {
         if (checkUserId(request.getUserId())) {
 
             User user = ObjectSelect.query(User.class)
@@ -93,19 +93,14 @@ public class AuthService implements IAuthService {
                         .success(true)
                         .build();
 
-            } else return LoginPassResponse.builder()
-                    .success(false)
-                    .error("Wrong password")
-                    .build();
+            } else
+                throw new BadRequestException(Integer.toString(request.getUserId()), "Wrong Password");
 
-        } else return LoginPassResponse.builder()
-                .success(false)
-                .error("User with this id doesn't exist")
-                .build();
+        } else throw new ObjectNotFoundException(Integer.toString(request.getUserId()), "User doesn't exist");
     }
 
     @Override
-    public SignUpResponse singUp(SignUpRequest request) {
+    public SignUpResponse singUp(SignUpRequest request) throws CommonException {
         if (checkEmailExist(request.getEmail())) {
 
             Random random = new Random();
@@ -126,20 +121,22 @@ public class AuthService implements IAuthService {
             user.setIsVerified(false);
             user.setIsBlocked(false);
 
+            Images image = SelectById.query(Images.class, 1).selectFirst(objectContext);
+
+            user.setUserToPic(image);
+
             objectContext.commitChanges();
 
             return SignUpResponse.builder()
                     .success(true)
                     .build();
 
-        } else return SignUpResponse.builder()
-                .success(false)
-                .error("User with this email exist")
-                .build();
+        } else
+            throw new BadRequestException(request.getEmail(), "User with this email exist");
     }
 
     @Override
-    public SessionResponse session(SessionRequest request) {
+    public SessionResponse session(SessionRequest request) throws CommonException {
         try {
             User user = ObjectSelect.query(User.class)
                     .where(User.USER_ID.eq(request.getUserId()))
@@ -159,15 +156,13 @@ public class AuthService implements IAuthService {
                         .build();
             }
         } catch (Exception e) {
-            log.error("Error while getting session info: " + e.getLocalizedMessage());
-            return SessionResponse.builder()
-                    .error(e.getLocalizedMessage())
-                    .build();
+            log.error("Error while getting session info: " + e.getMessage());
+            throw new CommonException(Integer.toString(request.getUserId()), "Session exception");
         }
     }
 
     @Override
-    public SetPasswordResponse setPassword(SetPasswordRequest request) {
+    public SetPasswordResponse setPassword(SetPasswordRequest request) throws CommonException {
         try {
             User user = ObjectSelect.query(User.class)
                     .where(User.USER_ID.eq(request.getUserId()))
@@ -186,16 +181,13 @@ public class AuthService implements IAuthService {
                     .build();
 
         } catch (Exception e) {
-            log.error("Error while setting password: " + e.getLocalizedMessage());
-            return SetPasswordResponse.builder()
-                    .success(false)
-                    .error(e.getLocalizedMessage())
-                    .build();
+            log.error("Error while setting password: " + e.getMessage());
+            throw new CommonException(Integer.toString(request.getUserId()), "Password setting exception");
         }
     }
 
     @Override
-    public InfoResponse info(InfoRequest request) {
+    public InfoResponse info(InfoRequest request) throws CommonException {
         if (checkUserId(request.getUserId())) {
 
             User user = ObjectSelect.query(User.class)
@@ -209,10 +201,9 @@ public class AuthService implements IAuthService {
                     .pic_id((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                     .build();
 
-        } else return InfoResponse.builder()
-                .success(false)
-                .error("User with this id doesn't exist")
-                .build();
+        } else
+            throw new ObjectNotFoundException(Integer.toString(request.getUserId()), "User doesn't exist");
+
     }
 
     private boolean checkEmailExist(String phone) {

@@ -1,6 +1,8 @@
 package ru.together.auth.interfaces;
 
 import ru.together.auth.models.*;
+import ru.together.common.exceptions.BadRequestException;
+import ru.together.common.exceptions.CommonException;
 
 public interface IAuthService {
 
@@ -12,17 +14,17 @@ public interface IAuthService {
     String AUTH_INFO = "/v1/info";
 
 
-    LoginIdResponse loginId(LoginIdRequest request);
+    LoginIdResponse loginId(LoginIdRequest request) throws CommonException;
 
-    LoginPassResponse loginPass(LoginPassRequest request);
+    LoginPassResponse loginPass(LoginPassRequest request) throws CommonException;
 
-    SignUpResponse singUp(SignUpRequest request);
+    SignUpResponse singUp(SignUpRequest request) throws CommonException;
 
-    SessionResponse session(SessionRequest request);
+    SessionResponse session(SessionRequest request) throws CommonException;
 
-    SetPasswordResponse setPassword(SetPasswordRequest request);
+    SetPasswordResponse setPassword(SetPasswordRequest request) throws CommonException;
 
-    InfoResponse info(InfoRequest request);
+    InfoResponse info(InfoRequest request) throws CommonException;
 
 
 }

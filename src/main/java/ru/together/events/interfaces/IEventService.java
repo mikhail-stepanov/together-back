@@ -1,5 +1,6 @@
 package ru.together.events.interfaces;
 
+import ru.together.common.exceptions.CommonException;
 import ru.together.events.models.*;
 
 import java.util.List;
@@ -15,18 +16,18 @@ public interface IEventService {
     String EVENT_REMOVE = "/v1/event/remove";
 
 
-    AddEventResponse add(AddEventRequest request);
+    AddEventResponse add(AddEventRequest request) throws CommonException;
 
-    GetEventResponse get(GetEventRequest request);
+    GetEventResponse get(GetEventRequest request) throws CommonException;
 
-    List<EventModel> listAll();
+    List<EventModel> listAll() throws CommonException;
 
-    List<EventModel> listFuture();
+    List<EventModel> listFuture() throws CommonException;
 
-    List<EventModel> listPast();
+    List<EventModel> listPast() throws CommonException;
 
-    UpdateEventResponse update(UpdateEventRequest request);
+    UpdateEventResponse update(UpdateEventRequest request) throws CommonException;
 
-    RemoveEventResponse remove(RemoveEventRequest request);
+    RemoveEventResponse remove(RemoveEventRequest request) throws CommonException;
 
 }

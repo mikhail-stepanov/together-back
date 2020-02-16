@@ -1,5 +1,6 @@
 package ru.together.users.interfaces;
 
+import ru.together.common.exceptions.CommonException;
 import ru.together.users.models.*;
 
 import java.util.List;
@@ -19,26 +20,26 @@ public interface IUserService {
     String USER_EMAIL = "/v1/user/email";
 
 
-    GetUserResponse get(GetUserRequest request);
+    GetUserResponse get(GetUserRequest request) throws CommonException;
 
-    List<UserModel> list();
+    List<UserModel> list() throws CommonException;
 
-    List<UserModel> listVerified();
+    List<UserModel> listVerified() throws CommonException;
 
-    List<UserModel> listUnverified();
+    List<UserModel> listUnverified() throws CommonException;
 
-    List<UserModel> listBlocked();
+    List<UserModel> listBlocked() throws CommonException;
 
-    BlockUserResponse block(BlockUserRequest request);
+    BlockUserResponse block(BlockUserRequest request) throws CommonException;
 
-    BlockUserResponse unblock(BlockUserRequest request);
+    BlockUserResponse unblock(BlockUserRequest request) throws CommonException;
 
-    UpdateUserResponse update(UpdateUserRequest request);
+    UpdateUserResponse update(UpdateUserRequest request) throws CommonException;
 
-    UpdateUserResponse verify(UpdateUserRequest request);
+    UpdateUserResponse verify(UpdateUserRequest request) throws CommonException;
 
-    ResendEmailResponse resendEmail(ResendEmailRequest request);
+    ResendEmailResponse resendEmail(ResendEmailRequest request) throws CommonException;
 
-    RemoveUserResponse remove(RemoveUserRequest request);
+    RemoveUserResponse remove(RemoveUserRequest request) throws CommonException;
 
 }
