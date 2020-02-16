@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.together.common.exceptions.CommonException;
 import ru.together.common.exceptions.ObjectNotFoundException;
-import ru.together.database.entities.Event;
-import ru.together.database.entities.Images;
+import ru.together.database.entities.*;
 import ru.together.database.services.DatabaseService;
 import ru.together.events.interfaces.IEventService;
 import ru.together.events.models.*;
@@ -201,6 +200,80 @@ public class EventService implements IEventService {
             return response;
         } catch (Exception e) {
             throw new ObjectNotFoundException(e.getMessage(), "Error while getting list of event");
+        }
+    }
+
+    @Override
+    public List<EventModel> listFutureUser(EventUserList request) throws CommonException {
+        try {
+            User user = ObjectSelect.query(User.class)
+                    .where(User.USER_ID.eq(request.getUserId()))
+                    .selectFirst(objectContext);
+
+            List<UserTicket> tickets = ObjectSelect.query(UserTicket.class)
+                    .where(UserTicket.TICKET_TO_USER.eq(user))
+                    .select(objectContext);
+
+            List<EventModel> futureEvents = new ArrayList<>();
+
+            tickets.forEach(userTicket -> {
+                Event event = userTicket.getTicketToEvent();
+                futureEvents.add(EventModel.builder()
+                        .id((Integer) event.getObjectId().getIdSnapshot().get("id"))
+                        .title(event.getTitle())
+                        .date(event.getDate())
+                        .place(event.getPlace())
+                        .description(event.getDescription())
+                        .picBigId((Integer) event.getEventToBigPic().getObjectId().getIdSnapshot().get("id"))
+                        .picSmallId((Integer) event.getEventToSmallPic().getObjectId().getIdSnapshot().get("id"))
+                        .video((Integer) event.getEventToVideo().getObjectId().getIdSnapshot().get("id"))
+                        .ticketcloud(event.getTicketcloud())
+                        .isFuture(event.isIsFuture())
+                        .youtube(event.getYoutube())
+                        .soundcloud(event.getSoundcloud())
+                        .cloud(event.getCloud())
+                        .build());
+            });
+            return futureEvents;
+        } catch (Exception e) {
+            throw new ObjectNotFoundException(Integer.toString(request.getUserId()), "Error while getting list of future user events");
+        }
+    }
+
+    @Override
+    public List<EventModel> listPastUser(EventUserList request) throws CommonException {
+        try {
+            User user = ObjectSelect.query(User.class)
+                    .where(User.USER_ID.eq(request.getUserId()))
+                    .selectFirst(objectContext);
+
+            List<UserPastEvent> pastUserEvents = ObjectSelect.query(UserPastEvent.class)
+                    .where(UserPastEvent.PAST_TO_USER.eq(user))
+                    .select(objectContext);
+
+            List<EventModel> pastEvents = new ArrayList<>();
+
+            pastUserEvents.forEach(pastEvent -> {
+                Event event = pastEvent.getPastToEvent();
+                pastEvents.add(EventModel.builder()
+                        .id((Integer) event.getObjectId().getIdSnapshot().get("id"))
+                        .title(event.getTitle())
+                        .date(event.getDate())
+                        .place(event.getPlace())
+                        .description(event.getDescription())
+                        .picBigId((Integer) event.getEventToBigPic().getObjectId().getIdSnapshot().get("id"))
+                        .picSmallId((Integer) event.getEventToSmallPic().getObjectId().getIdSnapshot().get("id"))
+                        .video((Integer) event.getEventToVideo().getObjectId().getIdSnapshot().get("id"))
+                        .ticketcloud(event.getTicketcloud())
+                        .isFuture(event.isIsFuture())
+                        .youtube(event.getYoutube())
+                        .soundcloud(event.getSoundcloud())
+                        .cloud(event.getCloud())
+                        .build());
+            });
+            return pastEvents;
+        } catch (Exception e) {
+            throw new ObjectNotFoundException(Integer.toString(request.getUserId()), "Error while getting list of past user events");
         }
     }
 

@@ -54,6 +54,20 @@ public class EventEndpoint extends AbstractController implements IEventService {
 
     @Override
     @CrossOrigin
+    @RequestMapping(value = EVENT_LIST_FUTURE_USER, method = {RequestMethod.POST})
+    public List<EventModel> listFutureUser(@RequestBody EventUserList request) throws CommonException {
+        return eventService.listFutureUser(request);
+    }
+
+    @Override
+    @CrossOrigin
+    @RequestMapping(value = EVENT_LIST_PAST_USER, method = {RequestMethod.POST})
+    public List<EventModel> listPastUser(@RequestBody EventUserList request) throws CommonException {
+        return eventService.listPastUser(request);
+    }
+
+    @Override
+    @CrossOrigin
     @RequestMapping(value = EVENT_REMOVE, method = {RequestMethod.POST})
     public RemoveEventResponse remove(@RequestBody RemoveEventRequest request) throws CommonException {
         return eventService.remove(request);

@@ -12,6 +12,8 @@ public interface IEventService {
     String EVENT_LIST_ALL = "/v1/event/list/all";
     String EVENT_LIST_FUTURE = "/v1/event/list/future";
     String EVENT_LIST_PAST = "/v1/event/list/past";
+    String EVENT_LIST_FUTURE_USER = "/v1/event/list/future/user";
+    String EVENT_LIST_PAST_USER = "/v1/event/list/past/user";
     String EVENT_UPDATE = "/v1/event/update";
     String EVENT_REMOVE = "/v1/event/remove";
 
@@ -25,6 +27,10 @@ public interface IEventService {
     List<EventModel> listFuture() throws CommonException;
 
     List<EventModel> listPast() throws CommonException;
+
+    List<EventModel> listFutureUser(EventUserList request) throws CommonException;
+
+    List<EventModel> listPastUser(EventUserList request) throws CommonException;
 
     UpdateEventResponse update(UpdateEventRequest request) throws CommonException;
 
