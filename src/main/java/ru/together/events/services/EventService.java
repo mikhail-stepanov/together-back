@@ -47,31 +47,9 @@ public class EventService implements IEventService {
             event.setDescription(request.getDescription());
             event.setTicketcloud(request.getTicketcloud());
             event.setIsFuture(true);
-
-            Images bigPic;
-            Images smallPic;
-            Images video;
-
-            if (request.getPicBigId() != null) {
-                bigPic = SelectById.query(Images.class, request.getPicBigId()).selectFirst(objectContext);
-            } else {
-                bigPic = SelectById.query(Images.class, 2).selectFirst(objectContext);
-            }
-            event.setEventToBigPic(bigPic);
-
-            if (request.getPicBigId() != null) {
-                smallPic = SelectById.query(Images.class, request.getPicSmallId()).selectFirst(objectContext);
-            } else {
-                smallPic = SelectById.query(Images.class, 2).selectFirst(objectContext);
-            }
-            event.setEventToSmallPic(smallPic);
-
-            if (request.getPicBigId() != null) {
-                video = SelectById.query(Images.class, request.getVideo()).selectFirst(objectContext);
-            } else {
-                video = SelectById.query(Images.class, 2).selectFirst(objectContext);
-            }
-            event.setEventToVideo(video);
+            event.setPicBig(request.getPicBig());
+            event.setPicSmall(request.getPicSmall());
+            event.setVideo(request.getVideo());
 
             objectContext.commitChanges();
 
@@ -93,9 +71,9 @@ public class EventService implements IEventService {
                     .date(event.getDate())
                     .place(event.getPlace())
                     .description(event.getDescription())
-                    .picBigId((Integer) event.getEventToBigPic().getObjectId().getIdSnapshot().get("id"))
-                    .picSmallId((Integer) event.getEventToSmallPic().getObjectId().getIdSnapshot().get("id"))
-                    .video((Integer) event.getEventToVideo().getObjectId().getIdSnapshot().get("id"))
+                    .picBig(event.getPicBig())
+                    .picSmall(event.getPicSmall())
+                    .video(event.getVideo())
                     .ticketcloud(event.getTicketcloud())
                     .isFuture(event.isIsFuture())
                     .youtube(event.getYoutube())
@@ -122,9 +100,9 @@ public class EventService implements IEventService {
                         .date(event.getDate())
                         .place(event.getPlace())
                         .description(event.getDescription())
-                        .picBigId((Integer) event.getEventToBigPic().getObjectId().getIdSnapshot().get("id"))
-                        .picSmallId((Integer) event.getEventToSmallPic().getObjectId().getIdSnapshot().get("id"))
-                        .video((Integer) event.getEventToVideo().getObjectId().getIdSnapshot().get("id"))
+                        .picBig(event.getPicBig())
+                        .picSmall(event.getPicSmall())
+                        .video(event.getVideo())
                         .ticketcloud(event.getTicketcloud())
                         .isFuture(event.isIsFuture())
                         .youtube(event.getYoutube())
@@ -154,9 +132,9 @@ public class EventService implements IEventService {
                         .date(event.getDate())
                         .place(event.getPlace())
                         .description(event.getDescription())
-                        .picBigId((Integer) event.getEventToBigPic().getObjectId().getIdSnapshot().get("id"))
-                        .picSmallId((Integer) event.getEventToSmallPic().getObjectId().getIdSnapshot().get("id"))
-                        .video((Integer) event.getEventToVideo().getObjectId().getIdSnapshot().get("id"))
+                        .picBig(event.getPicBig())
+                        .picSmall(event.getPicSmall())
+                        .video(event.getVideo())
                         .ticketcloud(event.getTicketcloud())
                         .isFuture(event.isIsFuture())
                         .youtube(event.getYoutube())
@@ -186,9 +164,9 @@ public class EventService implements IEventService {
                         .date(event.getDate())
                         .place(event.getPlace())
                         .description(event.getDescription())
-                        .picBigId((Integer) event.getEventToBigPic().getObjectId().getIdSnapshot().get("id"))
-                        .picSmallId((Integer) event.getEventToSmallPic().getObjectId().getIdSnapshot().get("id"))
-                        .video((Integer) event.getEventToVideo().getObjectId().getIdSnapshot().get("id"))
+                        .picBig(event.getPicBig())
+                        .picSmall(event.getPicSmall())
+                        .video(event.getVideo())
                         .ticketcloud(event.getTicketcloud())
                         .isFuture(event.isIsFuture())
                         .youtube(event.getYoutube())
@@ -224,9 +202,9 @@ public class EventService implements IEventService {
                         .date(event.getDate())
                         .place(event.getPlace())
                         .description(event.getDescription())
-                        .picBigId((Integer) event.getEventToBigPic().getObjectId().getIdSnapshot().get("id"))
-                        .picSmallId((Integer) event.getEventToSmallPic().getObjectId().getIdSnapshot().get("id"))
-                        .video((Integer) event.getEventToVideo().getObjectId().getIdSnapshot().get("id"))
+                        .picBig(event.getPicBig())
+                        .picSmall(event.getPicSmall())
+                        .video(event.getVideo())
                         .ticketcloud(event.getTicketcloud())
                         .isFuture(event.isIsFuture())
                         .youtube(event.getYoutube())
@@ -261,9 +239,9 @@ public class EventService implements IEventService {
                         .date(event.getDate())
                         .place(event.getPlace())
                         .description(event.getDescription())
-                        .picBigId((Integer) event.getEventToBigPic().getObjectId().getIdSnapshot().get("id"))
-                        .picSmallId((Integer) event.getEventToSmallPic().getObjectId().getIdSnapshot().get("id"))
-                        .video((Integer) event.getEventToVideo().getObjectId().getIdSnapshot().get("id"))
+                        .picBig(event.getPicBig())
+                        .picSmall(event.getPicSmall())
+                        .video(event.getVideo())
                         .ticketcloud(event.getTicketcloud())
                         .isFuture(event.isIsFuture())
                         .youtube(event.getYoutube())
@@ -282,18 +260,7 @@ public class EventService implements IEventService {
         try {
             Event event = SelectById.query(Event.class, request.getId()).selectFirst(objectContext);
 
-            if (request.getPicBigId() != null) {
-                Images bigPic = SelectById.query(Images.class, request.getPicBigId()).selectFirst(objectContext);
-                event.setEventToBigPic(bigPic);
-            }
-            if (request.getPicBigId() != null) {
-                Images smallPic = SelectById.query(Images.class, request.getPicSmallId()).selectFirst(objectContext);
-                event.setEventToSmallPic(smallPic);
-            }
-            if (request.getPicBigId() != null) {
-                Images video = SelectById.query(Images.class, request.getVideo()).selectFirst(objectContext);
-                event.setEventToVideo(video);
-            }
+
             event.setTitle(Optional.ofNullable(request.getTitle()).orElse(event.getTitle()));
             event.setDate(Optional.ofNullable(request.getDate()).orElse(event.getDate()));
             event.setPlace(Optional.ofNullable(request.getPlace()).orElse(event.getPlace()));
@@ -303,6 +270,10 @@ public class EventService implements IEventService {
             event.setYoutube(Optional.ofNullable(request.getYoutube()).orElse(event.getYoutube()));
             event.setSoundcloud(Optional.ofNullable(request.getSoundcloud()).orElse(event.getSoundcloud()));
             event.setCloud(Optional.ofNullable(request.getCloud()).orElse(event.getCloud()));
+            event.setPicSmall(Optional.ofNullable(request.getPicSmall()).orElse(event.getPicSmall()));
+            event.setPicBig(Optional.ofNullable(request.getPicBig()).orElse(event.getPicBig()));
+            event.setVideo(Optional.ofNullable(request.getVideo()).orElse(event.getVideo()));
+
 
             objectContext.commitChanges();
 
@@ -312,9 +283,9 @@ public class EventService implements IEventService {
                     .date(event.getDate())
                     .place(event.getPlace())
                     .description(event.getDescription())
-                    .picBigId((Integer) event.getEventToBigPic().getObjectId().getIdSnapshot().get("id"))
-                    .picSmallId((Integer) event.getEventToSmallPic().getObjectId().getIdSnapshot().get("id"))
-                    .video((Integer) event.getEventToVideo().getObjectId().getIdSnapshot().get("id"))
+                    .picBig(event.getPicBig())
+                    .picSmall(event.getPicSmall())
+                    .video(event.getVideo())
                     .ticketcloud(event.getTicketcloud())
                     .isFuture(event.isIsFuture())
                     .youtube(event.getYoutube())

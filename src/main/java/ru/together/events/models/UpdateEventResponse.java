@@ -21,11 +21,11 @@ public class UpdateEventResponse {
 
     String ticketcloud;
 
-    Integer picBigId;
+    String picBig;
 
-    Integer picSmallId;
+    String picSmall;
 
-    Integer video;
+    String video;
 
     String description;
 

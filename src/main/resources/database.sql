@@ -45,9 +45,9 @@ CREATE TABLE IF NOT EXISTS public.event
     date          varchar(255)  NOT NULL,
     place         varchar(255)  NOT NULL,
     description   varchar(1024) NULL,
-    pic_big_id    int           NULL,
-    pic_small_id  int           NULL,
-    video         int           NULL,
+    pic_big       varchar(1000) NULL,
+    pic_small     varchar(1000) NULL,
+    video         varchar(1000) NULL,
     ticketcloud   varchar(255)  NULL,
     is_future     boolean       NOT NULL,
     youtube       varchar(1000) NULL,
@@ -57,9 +57,6 @@ CREATE TABLE IF NOT EXISTS public.event
     deleted_date  timestamp     NULL,
     modified_date timestamp     NULL,
     CONSTRAINT event_pkey PRIMARY KEY (id),
-    CONSTRAINT event_big_pic_fkey FOREIGN KEY (pic_big_id) REFERENCES public.images (id),
-    CONSTRAINT event_small_pic_fkey FOREIGN KEY (pic_small_id) REFERENCES public.images (id),
-    CONSTRAINT video_fkey FOREIGN KEY (video) REFERENCES public.images (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.user_past_event

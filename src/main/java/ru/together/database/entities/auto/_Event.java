@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.exp.Property;
 
-import ru.together.database.entities.Images;
 import ru.together.database.entities.UserPastEvent;
 import ru.together.database.entities.UserTicket;
 
@@ -29,16 +28,16 @@ public abstract class _Event extends CayenneDataObject {
     public static final Property<String> DESCRIPTION = Property.create("description", String.class);
     public static final Property<Boolean> IS_FUTURE = Property.create("isFuture", Boolean.class);
     public static final Property<LocalDateTime> MODIFIED_DATE = Property.create("modifiedDate", LocalDateTime.class);
+    public static final Property<String> PIC_BIG = Property.create("picBig", String.class);
+    public static final Property<String> PIC_SMALL = Property.create("picSmall", String.class);
     public static final Property<String> PLACE = Property.create("place", String.class);
     public static final Property<String> SOUNDCLOUD = Property.create("soundcloud", String.class);
     public static final Property<String> TICKETCLOUD = Property.create("ticketcloud", String.class);
     public static final Property<String> TITLE = Property.create("title", String.class);
+    public static final Property<String> VIDEO = Property.create("video", String.class);
     public static final Property<String> YOUTUBE = Property.create("youtube", String.class);
-    public static final Property<Images> EVENT_TO_BIG_PIC = Property.create("eventToBigPic", Images.class);
     public static final Property<List<UserPastEvent>> EVENT_TO_PAST = Property.create("eventToPast", List.class);
-    public static final Property<Images> EVENT_TO_SMALL_PIC = Property.create("eventToSmallPic", Images.class);
     public static final Property<List<UserTicket>> EVENT_TO_TICKET = Property.create("eventToTicket", List.class);
-    public static final Property<Images> EVENT_TO_VIDEO = Property.create("eventToVideo", Images.class);
 
     public void setCloud(String cloud) {
         writeProperty("cloud", cloud);
@@ -90,6 +89,20 @@ public abstract class _Event extends CayenneDataObject {
         return (LocalDateTime)readProperty("modifiedDate");
     }
 
+    public void setPicBig(String picBig) {
+        writeProperty("picBig", picBig);
+    }
+    public String getPicBig() {
+        return (String)readProperty("picBig");
+    }
+
+    public void setPicSmall(String picSmall) {
+        writeProperty("picSmall", picSmall);
+    }
+    public String getPicSmall() {
+        return (String)readProperty("picSmall");
+    }
+
     public void setPlace(String place) {
         writeProperty("place", place);
     }
@@ -118,21 +131,19 @@ public abstract class _Event extends CayenneDataObject {
         return (String)readProperty("title");
     }
 
+    public void setVideo(String video) {
+        writeProperty("video", video);
+    }
+    public String getVideo() {
+        return (String)readProperty("video");
+    }
+
     public void setYoutube(String youtube) {
         writeProperty("youtube", youtube);
     }
     public String getYoutube() {
         return (String)readProperty("youtube");
     }
-
-    public void setEventToBigPic(Images eventToBigPic) {
-        setToOneTarget("eventToBigPic", eventToBigPic, true);
-    }
-
-    public Images getEventToBigPic() {
-        return (Images)readProperty("eventToBigPic");
-    }
-
 
     public void addToEventToPast(UserPastEvent obj) {
         addToManyTarget("eventToPast", obj, true);
@@ -146,15 +157,6 @@ public abstract class _Event extends CayenneDataObject {
     }
 
 
-    public void setEventToSmallPic(Images eventToSmallPic) {
-        setToOneTarget("eventToSmallPic", eventToSmallPic, true);
-    }
-
-    public Images getEventToSmallPic() {
-        return (Images)readProperty("eventToSmallPic");
-    }
-
-
     public void addToEventToTicket(UserTicket obj) {
         addToManyTarget("eventToTicket", obj, true);
     }
@@ -164,15 +166,6 @@ public abstract class _Event extends CayenneDataObject {
     @SuppressWarnings("unchecked")
     public List<UserTicket> getEventToTicket() {
         return (List<UserTicket>)readProperty("eventToTicket");
-    }
-
-
-    public void setEventToVideo(Images eventToVideo) {
-        setToOneTarget("eventToVideo", eventToVideo, true);
-    }
-
-    public Images getEventToVideo() {
-        return (Images)readProperty("eventToVideo");
     }
 
 
