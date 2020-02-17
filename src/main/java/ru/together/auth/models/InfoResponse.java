@@ -15,6 +15,12 @@ public class InfoResponse {
 
     String name;
 
+    String facebook;
+
+    String instagram;
+
+    String phone;
+
     Integer pic_id;
 
     boolean success;

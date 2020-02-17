@@ -197,6 +197,9 @@ public class AuthService implements IAuthService {
             return InfoResponse.builder()
                     .success(true)
                     .name(user.getName())
+                    .facebook(user.getFacebook())
+                    .instagram(user.getInstagram())
+                    .phone(user.getPhone())
                     .userId(user.getUserId())
                     .pic_id((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                     .build();
