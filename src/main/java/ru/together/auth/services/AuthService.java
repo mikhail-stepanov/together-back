@@ -112,7 +112,8 @@ public class AuthService implements IAuthService {
 
             User user = objectContext.newObject(User.class);
             user.setCreatedDate(LocalDateTime.now());
-            user.setName(request.getName());
+            user.setFirstName(request.getFirstName());
+            user.setLastName(request.getLastName());
             user.setEmail(request.getEmail());
             user.setPhone(request.getPhone());
             user.setUserId(newId);
@@ -196,12 +197,13 @@ public class AuthService implements IAuthService {
 
             return InfoResponse.builder()
                     .success(true)
-                    .name(user.getName())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
                     .facebook(user.getFacebook())
                     .instagram(user.getInstagram())
                     .phone(user.getPhone())
                     .userId(user.getUserId())
-                    .pic_id((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                    .picId((int) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
                     .build();
 
         } else

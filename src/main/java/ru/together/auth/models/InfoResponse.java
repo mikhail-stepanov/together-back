@@ -13,7 +13,9 @@ public class InfoResponse {
 
     int userId;
 
-    String name;
+    String firstName;
+
+    String lastName;
 
     String facebook;
 
@@ -21,7 +23,7 @@ public class InfoResponse {
 
     String phone;
 
-    Integer pic_id;
+    Integer picId;
 
     boolean success;
 

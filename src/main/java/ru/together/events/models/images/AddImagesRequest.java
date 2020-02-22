@@ -15,5 +15,5 @@ public class AddImagesRequest {
 
     String name;
 
-    String content;
+    byte[] content;
 }

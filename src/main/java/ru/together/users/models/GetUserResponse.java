@@ -15,7 +15,9 @@ public class GetUserResponse {
 
     Integer userId;
 
-    String name;
+    String firstName;
+
+    String lastName;
 
     String email;
 

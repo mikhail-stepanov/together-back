@@ -260,20 +260,18 @@ public class EventService implements IEventService {
         try {
             Event event = SelectById.query(Event.class, request.getId()).selectFirst(objectContext);
 
-
             event.setTitle(Optional.ofNullable(request.getTitle()).orElse(event.getTitle()));
             event.setDate(Optional.ofNullable(request.getDate()).orElse(event.getDate()));
             event.setPlace(Optional.ofNullable(request.getPlace()).orElse(event.getPlace()));
             event.setDescription(Optional.ofNullable(request.getDescription()).orElse(event.getDescription()));
             event.setTicketcloud(Optional.ofNullable(request.getTicketcloud()).orElse(event.getTicketcloud()));
-            event.setIsFuture(Optional.ofNullable(request.isFuture()).orElse(event.isIsFuture()));
+            event.setIsFuture(Optional.ofNullable(request.getIsFuture()).orElse(event.isIsFuture()));
             event.setYoutube(Optional.ofNullable(request.getYoutube()).orElse(event.getYoutube()));
             event.setSoundcloud(Optional.ofNullable(request.getSoundcloud()).orElse(event.getSoundcloud()));
             event.setCloud(Optional.ofNullable(request.getCloud()).orElse(event.getCloud()));
             event.setPicSmall(Optional.ofNullable(request.getPicSmall()).orElse(event.getPicSmall()));
             event.setPicBig(Optional.ofNullable(request.getPicBig()).orElse(event.getPicBig()));
             event.setVideo(Optional.ofNullable(request.getVideo()).orElse(event.getVideo()));
-
 
             objectContext.commitChanges();
 

@@ -31,7 +31,7 @@ public class GetEventResponse {
 
     String description;
 
-    boolean isFuture;
+    Boolean isFuture;
 
     String youtube;
 

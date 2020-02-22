@@ -29,7 +29,7 @@ public class AddEventRequest {
 
     String description;
 
-    boolean isFuture;
+    Boolean isFuture;
 
     String youtube;
 

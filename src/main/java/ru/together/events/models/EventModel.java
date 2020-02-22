@@ -31,7 +31,7 @@ public class EventModel {
 
     String description;
 
-    boolean isFuture;
+    Boolean isFuture;
 
     String youtube;
 

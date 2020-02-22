@@ -17,5 +17,5 @@ public class GetImagesResponse {
 
     String name;
 
-    String content;
+    byte[] content;
 }

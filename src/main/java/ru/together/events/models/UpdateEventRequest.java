@@ -31,7 +31,7 @@ public class UpdateEventRequest {
 
     String description;
 
-    boolean isFuture;
+    Boolean isFuture;
 
     String youtube;
 

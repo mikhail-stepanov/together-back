@@ -47,12 +47,10 @@ public class UserService implements IUserService {
             User user = null;
             //by id
             if (request.getId() != null) {
-
                 user = SelectById.query(User.class, request.getId()).selectFirst(objectContext);
             }
             //by userId
             else if (request.getUserId() != null) {
-
                 user = ObjectSelect.query(User.class)
                         .where(User.USER_ID.eq(request.getUserId()))
                         .selectFirst(objectContext);
@@ -66,7 +64,8 @@ public class UserService implements IUserService {
             return GetUserResponse.builder()
                     .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
                     .userId(user.getUserId())
-                    .name(user.getName())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
                     .phone(user.getPhone())
                     .email(user.getEmail())
                     .facebook(user.getFacebook())
@@ -91,7 +90,8 @@ public class UserService implements IUserService {
                 response.add(UserModel.builder()
                         .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
                         .userId(user.getUserId())
-                        .name(user.getName())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
                         .phone(user.getPhone())
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
@@ -119,7 +119,8 @@ public class UserService implements IUserService {
                 response.add(UserModel.builder()
                         .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
                         .userId(user.getUserId())
-                        .name(user.getName())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
                         .phone(user.getPhone())
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
@@ -147,7 +148,8 @@ public class UserService implements IUserService {
                 response.add(UserModel.builder()
                         .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
                         .userId(user.getUserId())
-                        .name(user.getName())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
                         .phone(user.getPhone())
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
@@ -175,7 +177,8 @@ public class UserService implements IUserService {
                 response.add(UserModel.builder()
                         .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
                         .userId(user.getUserId())
-                        .name(user.getName())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
                         .phone(user.getPhone())
                         .email(user.getEmail())
                         .facebook(user.getFacebook())
@@ -245,7 +248,8 @@ public class UserService implements IUserService {
 
             user.setUserId(Optional.ofNullable(request.getUserId()).orElse(user.getUserId()));
             user.setEmail(Optional.ofNullable(request.getEmail()).orElse(user.getEmail()));
-            user.setName(Optional.ofNullable(request.getName()).orElse(user.getName()));
+            user.setFirstName(Optional.ofNullable(request.getFirstName()).orElse(user.getFirstName()));
+            user.setLastName(Optional.ofNullable(request.getLastName()).orElse(user.getLastName()));
             user.setPhone(Optional.ofNullable(request.getPhone()).orElse(user.getPhone()));
             user.setFacebook(Optional.ofNullable(request.getFacebook()).orElse(user.getFacebook()));
             user.setInstagram(Optional.ofNullable(request.getInstagram()).orElse(user.getInstagram()));
@@ -255,7 +259,8 @@ public class UserService implements IUserService {
 
             return UpdateUserResponse.builder()
                     .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
-                    .name(user.getName())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
                     .email(user.getEmail())
                     .isVerified(user.isIsVerified())
                     .userId(user.getUserId())
@@ -287,7 +292,8 @@ public class UserService implements IUserService {
 
             return UpdateUserResponse.builder()
                     .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
-                    .name(user.getName())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
                     .email(user.getEmail())
                     .isVerified(user.isIsVerified())
                     .userId(user.getUserId())

@@ -27,11 +27,12 @@ public abstract class _User extends CayenneDataObject {
     public static final Property<LocalDateTime> DELETED_DATE = Property.create("deletedDate", LocalDateTime.class);
     public static final Property<String> EMAIL = Property.create("email", String.class);
     public static final Property<String> FACEBOOK = Property.create("facebook", String.class);
+    public static final Property<String> FIRST_NAME = Property.create("firstName", String.class);
     public static final Property<String> INSTAGRAM = Property.create("instagram", String.class);
     public static final Property<Boolean> IS_BLOCKED = Property.create("isBlocked", Boolean.class);
     public static final Property<Boolean> IS_VERIFIED = Property.create("isVerified", Boolean.class);
+    public static final Property<String> LAST_NAME = Property.create("lastName", String.class);
     public static final Property<LocalDateTime> MODIFIED_DATE = Property.create("modifiedDate", LocalDateTime.class);
-    public static final Property<String> NAME = Property.create("name", String.class);
     public static final Property<String> PASSWORD = Property.create("password", String.class);
     public static final Property<String> PHONE = Property.create("phone", String.class);
     public static final Property<Integer> USER_ID = Property.create("userId", Integer.class);
@@ -68,6 +69,13 @@ public abstract class _User extends CayenneDataObject {
         return (String)readProperty("facebook");
     }
 
+    public void setFirstName(String firstName) {
+        writeProperty("firstName", firstName);
+    }
+    public String getFirstName() {
+        return (String)readProperty("firstName");
+    }
+
     public void setInstagram(String instagram) {
         writeProperty("instagram", instagram);
     }
@@ -91,18 +99,18 @@ public abstract class _User extends CayenneDataObject {
         return (value != null) ? value.booleanValue() : false;
     }
 
+    public void setLastName(String lastName) {
+        writeProperty("lastName", lastName);
+    }
+    public String getLastName() {
+        return (String)readProperty("lastName");
+    }
+
     public void setModifiedDate(LocalDateTime modifiedDate) {
         writeProperty("modifiedDate", modifiedDate);
     }
     public LocalDateTime getModifiedDate() {
         return (LocalDateTime)readProperty("modifiedDate");
-    }
-
-    public void setName(String name) {
-        writeProperty("name", name);
-    }
-    public String getName() {
-        return (String)readProperty("name");
     }
 
     public void setPassword(String password) {

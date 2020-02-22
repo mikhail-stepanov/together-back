@@ -46,11 +46,11 @@ public class EmailService {
                     .selectFirst(objectContext);
 
             StringBuilder userId = new StringBuilder(Integer.toString(user.getUserId()));
-            while (userId.length()<4){
+            while (userId.length() < 4) {
                 userId.insert(0, "0");
             }
 
-            String text = String.format(template.getText(), user.getName(), userId);
+            String text = String.format(template.getText(), user.getLastName() + " " + user.getFirstName(), userId);
 
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(user.getEmail());
