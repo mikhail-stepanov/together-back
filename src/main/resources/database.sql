@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS public.user
 (
     id            int          NOT NULL,
     user_id       int          NOT NULL,
-    name          varchar(255) NOT NULL,
+    first_name    varchar(255) NOT NULL,
+    last_name     varchar(255) NOT NULL,
     password      varchar(255) NULL,
     email         varchar(255) NULL,
     phone         varchar(255) NULL,
