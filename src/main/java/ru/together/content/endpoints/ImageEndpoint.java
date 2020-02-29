@@ -1,10 +1,7 @@
 package ru.together.content.endpoints;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import ru.together.common.exceptions.CommonException;
 import ru.together.content.interfaces.IImageService;
 import ru.together.content.models.GetImageRequest;
@@ -13,6 +10,7 @@ import ru.together.content.models.UploadImageRequest;
 import ru.together.content.models.UploadImageResponse;
 import ru.together.content.services.ImageService;
 
+@RestController
 public class ImageEndpoint implements IImageService {
 
     @Autowired

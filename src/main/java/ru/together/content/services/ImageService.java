@@ -5,6 +5,7 @@ import org.apache.cayenne.query.SelectById;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.together.common.exceptions.CommonException;
 import ru.together.common.exceptions.ObjectNotFoundException;
 import ru.together.content.interfaces.IImageService;
@@ -17,6 +18,7 @@ import ru.together.database.services.DatabaseService;
 
 import javax.annotation.PostConstruct;
 
+@Service
 public class ImageService implements IImageService {
 
     @Autowired
