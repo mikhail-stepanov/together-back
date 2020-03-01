@@ -1,5 +1,6 @@
 package ru.together.push.endpoints;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +14,8 @@ import ru.together.push.services.PushNotificationService;
 @RestController
 public class PushNotificationController {
 
-    private PushNotificationService pushNotificationService;
-
-    public PushNotificationController(PushNotificationService pushNotificationService) {
-        this.pushNotificationService = pushNotificationService;
-    }
+    @Autowired
+    PushNotificationService pushNotificationService;
 
     @PostMapping("/notification/topic")
     public ResponseEntity sendNotification(@RequestBody PushNotificationRequest request) {

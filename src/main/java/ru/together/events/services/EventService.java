@@ -13,6 +13,8 @@ import ru.together.database.entities.*;
 import ru.together.database.services.DatabaseService;
 import ru.together.events.interfaces.IEventService;
 import ru.together.events.models.*;
+import ru.together.push.models.PushNotificationRequest;
+import ru.together.push.services.PushNotificationService;
 import ru.together.users.services.UserService;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +28,9 @@ public class EventService implements IEventService {
 
     @Autowired
     DatabaseService databaseService;
+
+    @Autowired
+    PushNotificationService pushNotificationService;
 
     ObjectContext objectContext;
 
@@ -52,6 +57,12 @@ public class EventService implements IEventService {
             event.setVideo(request.getVideo());
 
             objectContext.commitChanges();
+
+            pushNotificationService.sendPushNotification(PushNotificationRequest.builder()
+                    .message(event.getTitle())
+                    .title("Новое мероприятие!")
+                    .topic("new_event")
+                    .build());
 
             return AddEventResponse.builder()
                     .success(true)
