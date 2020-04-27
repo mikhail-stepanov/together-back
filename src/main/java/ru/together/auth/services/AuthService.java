@@ -122,7 +122,7 @@ public class AuthService implements IAuthService {
             user.setIsVerified(false);
             user.setIsBlocked(false);
 
-            Images image = SelectById.query(Images.class, 1).selectFirst(objectContext);
+            Images image = SelectById.query(Images.class, request.getPicId()).selectFirst(objectContext);
 
             user.setUserToPic(image);
 
