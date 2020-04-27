@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -95,10 +96,8 @@ public class AbstractController {
                 ex.getMessage(),
                 requestURL,
                 requestBody);
-        //пишем детальную информацию в другой лог
         log.error(errorMessage);
 
-        //возвращаем пользователю ничего не значащую информацию об ошибке
         return new ResponseEntity<>(ErrorResponse.builder()
                 .code(String.valueOf(httpStatus.value()))
                 .session(getInternalSessionId())

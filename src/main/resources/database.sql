@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS public.event
     created_date  timestamp     NULL,
     deleted_date  timestamp     NULL,
     modified_date timestamp     NULL,
-    CONSTRAINT event_pkey PRIMARY KEY (id),
+    CONSTRAINT event_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.user_past_event
