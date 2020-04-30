@@ -23,6 +23,6 @@ public class SignUpRequest {
 
     String instagram;
 
-    int picId;
+    Integer picId;
 
 }
