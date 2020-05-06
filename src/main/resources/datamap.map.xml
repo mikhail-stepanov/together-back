@@ -128,7 +128,7 @@
 	<db-relationship name="eventToTicket" source="event" target="user_ticket" toMany="true">
 		<db-attribute-pair source="id" target="event_id"/>
 	</db-relationship>
-	<db-relationship name="picToUser" source="images" target="user" toMany="true">
+	<db-relationship name="untitledRel" source="images" target="user" toMany="true">
 		<db-attribute-pair source="id" target="pic_id"/>
 	</db-relationship>
 	<db-relationship name="userToPast" source="user" target="user_past_event" toMany="true">
@@ -160,8 +160,9 @@
 	</db-relationship>
 	<obj-relationship name="eventToPast" source="Event" target="UserPastEvent" deleteRule="Deny" db-relationship-path="eventToPast"/>
 	<obj-relationship name="eventToTicket" source="Event" target="UserTicket" deleteRule="Deny" db-relationship-path="eventToTicket"/>
-	<obj-relationship name="picToUser" source="Images" target="User" deleteRule="Deny" db-relationship-path="picToUser"/>
+	<obj-relationship name="picToUser" source="Images" target="User" deleteRule="Deny" db-relationship-path="untitledRel"/>
 	<obj-relationship name="userToPast" source="User" target="UserPastEvent" deleteRule="Deny" db-relationship-path="userToPast"/>
+	<obj-relationship name="userToPic" source="User" target="Images" deleteRule="Nullify" db-relationship-path="userToPic"/>
 	<obj-relationship name="userToSession" source="User" target="UserSession" deleteRule="Deny" db-relationship-path="userToSession"/>
 	<obj-relationship name="userToTicket" source="User" target="UserTicket" deleteRule="Deny" db-relationship-path="userToTicket"/>
 	<obj-relationship name="pastToEvent" source="UserPastEvent" target="Event" deleteRule="Nullify" db-relationship-path="pastToEvent"/>

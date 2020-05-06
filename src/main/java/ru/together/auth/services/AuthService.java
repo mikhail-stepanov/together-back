@@ -123,7 +123,7 @@ public class AuthService implements IAuthService {
             user.setIsBlocked(false);
 
             Images image;
-            if (request.getPicId() == null || request.getPicId() == 0)
+            if (request.getPicId() == null)
                 image = SelectById.query(Images.class, 1).selectFirst(objectContext);
             else image = SelectById.query(Images.class, request.getPicId()).selectFirst(objectContext);
 
