@@ -160,7 +160,7 @@
 	</db-relationship>
 	<obj-relationship name="eventToPast" source="Event" target="UserPastEvent" deleteRule="Deny" db-relationship-path="eventToPast"/>
 	<obj-relationship name="eventToTicket" source="Event" target="UserTicket" deleteRule="Deny" db-relationship-path="eventToTicket"/>
-	<obj-relationship name="picToUser" source="Images" target="User" deleteRule="Deny" db-relationship-path="untitledRel"/>
+	<obj-relationship name="users" source="Images" target="User" deleteRule="Deny" db-relationship-path="untitledRel"/>
 	<obj-relationship name="userToPast" source="User" target="UserPastEvent" deleteRule="Deny" db-relationship-path="userToPast"/>
 	<obj-relationship name="userToPic" source="User" target="Images" deleteRule="Nullify" db-relationship-path="userToPic"/>
 	<obj-relationship name="userToSession" source="User" target="UserSession" deleteRule="Deny" db-relationship-path="userToSession"/>
