@@ -84,7 +84,7 @@ public class UserService implements IUserService {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
                     where(User.DELETED_DATE.isNull())
-                    .limit(30)
+                    .limit(20)
                     .select(objectContext);
 
             users.forEach(user -> {
@@ -114,7 +114,7 @@ public class UserService implements IUserService {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
                     where(User.DELETED_DATE.isNull()).and(User.IS_VERIFIED.isTrue())
-                    .limit(30)
+                    .limit(20)
                     .select(objectContext);
 
             users.forEach(user -> {
@@ -144,7 +144,7 @@ public class UserService implements IUserService {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
                     where(User.DELETED_DATE.isNull()).and(User.IS_VERIFIED.isFalse())
-                    .limit(30)
+                    .limit(20)
                     .select(objectContext);
 
             users.forEach(user -> {
@@ -174,7 +174,7 @@ public class UserService implements IUserService {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
                     where(User.DELETED_DATE.isNull()).and(User.IS_BLOCKED.isTrue())
-                    .limit(30)
+                    .limit(20)
                     .select(objectContext);
 
             users.forEach(user -> {
