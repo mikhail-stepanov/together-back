@@ -18,6 +18,7 @@ public interface IUserService {
     String USER_REMOVE = "/v1/user/remove";
     String USER_VERIFY = "/v1/user/verify";
     String USER_EMAIL = "/v1/user/email";
+    String USER_SEARCH = "/v1/user/search";
 
 
     GetUserResponse get(GetUserRequest request) throws CommonException;
@@ -29,6 +30,8 @@ public interface IUserService {
     List<UserModel> listUnverified() throws CommonException;
 
     List<UserModel> listBlocked() throws CommonException;
+
+    List<UserModel> searchUser(SearchUserRequest request) throws CommonException;
 
     BlockUserResponse block(BlockUserRequest request) throws CommonException;
 

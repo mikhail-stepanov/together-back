@@ -84,6 +84,7 @@ public class UserService implements IUserService {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
                     where(User.DELETED_DATE.isNull())
+                    .limit(30)
                     .select(objectContext);
 
             users.forEach(user -> {
@@ -113,6 +114,7 @@ public class UserService implements IUserService {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
                     where(User.DELETED_DATE.isNull()).and(User.IS_VERIFIED.isTrue())
+                    .limit(30)
                     .select(objectContext);
 
             users.forEach(user -> {
@@ -142,6 +144,7 @@ public class UserService implements IUserService {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
                     where(User.DELETED_DATE.isNull()).and(User.IS_VERIFIED.isFalse())
+                    .limit(30)
                     .select(objectContext);
 
             users.forEach(user -> {
@@ -171,6 +174,37 @@ public class UserService implements IUserService {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
                     where(User.DELETED_DATE.isNull()).and(User.IS_BLOCKED.isTrue())
+                    .limit(30)
+                    .select(objectContext);
+
+            users.forEach(user -> {
+                response.add(UserModel.builder()
+                        .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
+                        .userId(user.getUserId())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .phone(user.getPhone())
+                        .email(user.getEmail())
+                        .facebook(user.getFacebook())
+                        .instagram(user.getInstagram())
+                        .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                        .isVerified(user.isIsVerified())
+                        .build());
+            });
+
+            return response;
+        } catch (Exception e) {
+            throw new ObjectNotFoundException(e.getMessage(), "Error while getting list of users");
+        }
+    }
+
+    @Override
+    public List<UserModel> searchUser(SearchUserRequest request) throws CommonException {
+        try {
+            List<UserModel> response = new ArrayList<>();
+            List<User> users = ObjectSelect.query(User.class).
+                    where(User.DELETED_DATE.isNull()).and(User.LAST_NAME.lower().contains(request.getLastName().toLowerCase()))
+                    .limit(30)
                     .select(objectContext);
 
             users.forEach(user -> {

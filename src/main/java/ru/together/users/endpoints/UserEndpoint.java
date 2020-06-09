@@ -52,6 +52,13 @@ public class UserEndpoint implements IUserService {
 
     @Override
     @CrossOrigin
+    @RequestMapping(value = USER_SEARCH, method = {RequestMethod.POST})
+    public List<UserModel> searchUser(SearchUserRequest request) throws CommonException {
+        return userService.searchUser(request);
+    }
+
+    @Override
+    @CrossOrigin
     @RequestMapping(value = USER_BLOCK, method = {RequestMethod.POST})
     public BlockUserResponse block(@RequestBody BlockUserRequest request) throws CommonException {
         return userService.block(request);
