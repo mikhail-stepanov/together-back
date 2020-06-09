@@ -203,7 +203,7 @@ public class UserService implements IUserService {
         try {
             List<UserModel> response = new ArrayList<>();
             List<User> users = ObjectSelect.query(User.class).
-                    where(User.DELETED_DATE.isNull()).and(User.LAST_NAME.lower().like("%" + request.getLastName().toLowerCase() + "%"))
+                    where(User.DELETED_DATE.isNull()).and(User.LAST_NAME.like("%" + request.getLastName() + "%"))
                     .limit(30)
                     .select(objectContext);
 
