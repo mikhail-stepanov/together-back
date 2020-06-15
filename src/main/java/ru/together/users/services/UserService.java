@@ -202,12 +202,53 @@ public class UserService implements IUserService {
     public List<UserModel> searchUser(SearchUserRequest request) throws CommonException {
         try {
             List<UserModel> response = new ArrayList<>();
-            List<User> users = ObjectSelect.query(User.class).
+            List<User> usersLastname = ObjectSelect.query(User.class).
                     where(User.DELETED_DATE.isNull()).and(User.LAST_NAME.like("%" + request.getLastName() + "%"))
-                    .limit(30)
+                    .limit(20)
                     .select(objectContext);
 
-            users.forEach(user -> {
+            usersLastname.forEach(user -> {
+                response.add(UserModel.builder()
+                        .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
+                        .userId(user.getUserId())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .phone(user.getPhone())
+                        .email(user.getEmail())
+                        .facebook(user.getFacebook())
+                        .instagram(user.getInstagram())
+                        .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                        .isVerified(user.isIsVerified())
+                        .build());
+            });
+
+            List<User> usersPhone = ObjectSelect.query(User.class).
+                    where(User.DELETED_DATE.isNull()).and(User.PHONE.like("%" + request.getLastName() + "%"))
+                    .limit(20)
+                    .select(objectContext);
+
+            usersPhone.forEach(user -> {
+                response.add(UserModel.builder()
+                        .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
+                        .userId(user.getUserId())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .phone(user.getPhone())
+                        .email(user.getEmail())
+                        .facebook(user.getFacebook())
+                        .instagram(user.getInstagram())
+                        .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                        .isVerified(user.isIsVerified())
+                        .build());
+            });
+
+            List<User> usersId = SelectById.query(User.class, request.getLastName()).select(objectContext);
+            ObjectSelect.query(User.class).
+                    where(User.DELETED_DATE.isNull()).and(User.PHONE.like("%" + request.getLastName() + "%"))
+                    .limit(20)
+                    .select(objectContext);
+
+            usersId.forEach(user -> {
                 response.add(UserModel.builder()
                         .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
                         .userId(user.getUserId())
@@ -224,7 +265,7 @@ public class UserService implements IUserService {
 
             return response;
         } catch (Exception e) {
-            throw new ObjectNotFoundException(e.getMessage(), "Error while getting list of users");
+            throw new ObjectNotFoundException(e.getMessage(), "Error while searching of users");
         }
     }
 
