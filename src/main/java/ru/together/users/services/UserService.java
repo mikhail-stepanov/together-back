@@ -242,26 +242,24 @@ public class UserService implements IUserService {
                         .build());
             });
 
-            List<User> usersId = SelectById.query(User.class, request.getLastName()).select(objectContext);
-            ObjectSelect.query(User.class).
-                    where(User.DELETED_DATE.isNull()).and(User.PHONE.like("%" + request.getLastName() + "%"))
-                    .limit(20)
-                    .select(objectContext);
+            if (request.getLastName().matches("[0-9]+") && request.getLastName().length() == 4) {
+                List<User> usersId = SelectById.query(User.class, Integer.parseInt(request.getLastName())).select(objectContext);
 
-            usersId.forEach(user -> {
-                response.add(UserModel.builder()
-                        .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
-                        .userId(user.getUserId())
-                        .firstName(user.getFirstName())
-                        .lastName(user.getLastName())
-                        .phone(user.getPhone())
-                        .email(user.getEmail())
-                        .facebook(user.getFacebook())
-                        .instagram(user.getInstagram())
-                        .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
-                        .isVerified(user.isIsVerified())
-                        .build());
-            });
+                usersId.forEach(user -> {
+                    response.add(UserModel.builder()
+                            .id((Integer) user.getObjectId().getIdSnapshot().get("id"))
+                            .userId(user.getUserId())
+                            .firstName(user.getFirstName())
+                            .lastName(user.getLastName())
+                            .phone(user.getPhone())
+                            .email(user.getEmail())
+                            .facebook(user.getFacebook())
+                            .instagram(user.getInstagram())
+                            .picId((Integer) user.getUserToPic().getObjectId().getIdSnapshot().get("id"))
+                            .isVerified(user.isIsVerified())
+                            .build());
+                });
+            }
 
             return response;
         } catch (Exception e) {
